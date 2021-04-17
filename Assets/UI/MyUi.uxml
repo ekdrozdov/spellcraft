@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Label text="Target name ph" display-tooltip-when-elided="true" name="TargetNameLabel" />
+    <ui:Label text="Prop name ph" display-tooltip-when-elided="true" name="PropNameLabel" />
+    <ui:Label text="Prop value ph" display-tooltip-when-elided="true" name="PropValueLabel" />
+    <ui:Label text="Power value ph" display-tooltip-when-elided="true" name="PowerValueLabel" />
+    <ui:VisualElement name="ControlButtons" style="flex-direction: row; align-items: flex-start;">
+        <ui:Button text="+" display-tooltip-when-elided="true" name="AddButton" />
+        <ui:Button text="-" display-tooltip-when-elided="true" name="SubButton" />
+        <ui:Button text="&lt;" display-tooltip-when-elided="true" name="Prev" />
+        <ui:Button text="&gt;" display-tooltip-when-elided="true" name="Next" />
+    </ui:VisualElement>
+</ui:UXML>

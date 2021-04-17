@@ -46,3 +46,6 @@ Obj/
 ProjectSettings/
 temp/
 Temp/
+.vs/
+Logs
+UIElementsSchema
