@@ -1,12 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Label text="Target name ph" display-tooltip-when-elided="true" name="TargetNameLabel" />
-    <ui:Label text="Prop name ph" display-tooltip-when-elided="true" name="PropNameLabel" />
-    <ui:Label text="Prop value ph" display-tooltip-when-elided="true" name="PropValueLabel" />
-    <ui:Label text="Power value ph" display-tooltip-when-elided="true" name="PowerValueLabel" />
-    <ui:VisualElement name="ControlButtons" style="flex-direction: row; align-items: flex-start;">
-        <ui:Button text="+" display-tooltip-when-elided="true" name="AddButton" />
-        <ui:Button text="-" display-tooltip-when-elided="true" name="SubButton" />
-        <ui:Button text="&lt;" display-tooltip-when-elided="true" name="Prev" />
-        <ui:Button text="&gt;" display-tooltip-when-elided="true" name="Next" />
+    <ui:Label text="Target name ph" display-tooltip-when-elided="true" name="TargetNameLabel" style="width: auto; height: auto; font-size: 20px; -unity-font-style: bold;" />
+    <ui:Label text="Prop name ph" display-tooltip-when-elided="true" name="PropNameLabel" style="font-size: 20px;" />
+    <ui:Label text="Prop value ph" display-tooltip-when-elided="true" name="PropValueLabel" style="font-size: 16px;" />
+    <ui:Label text="Power value ph" display-tooltip-when-elided="true" name="PowerValueLabel" style="font-size: 16px;" />
+    <ui:VisualElement name="ControlButtons" style="flex-direction: row; align-items: flex-start; font-size: 15px;">
+        <ui:Button text="-" display-tooltip-when-elided="true" name="SubButton" style="font-size: 15px;" />
+        <ui:Button text="+" display-tooltip-when-elided="true" name="AddButton" style="font-size: 15px;" />
+        <ui:Button text="&lt;" display-tooltip-when-elided="true" name="Prev" style="font-size: 15px;" />
+        <ui:Button text="&gt;" display-tooltip-when-elided="true" name="Next" style="font-size: 15px;" />
     </ui:VisualElement>
 </ui:UXML>

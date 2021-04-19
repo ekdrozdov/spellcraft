@@ -10,7 +10,6 @@ public class MyUiController : MonoBehaviour, IObserver<ITargetedProperty>
   private IPropertyContainer _target;
   private ISpellSlot _ss;
   private VisualElement _root;
-
   void Start()
   {
     _ss = new SimpleSpellSlot(new SimpleMatcher(), GameObject.Find("Caster").GetComponent<SimplePropertyContainer>());
@@ -23,7 +22,7 @@ public class MyUiController : MonoBehaviour, IObserver<ITargetedProperty>
     PropValueLabel = _root.Q<Label>("PropValueLabel");
     PowerValueLabel = _root.Q<Label>("PowerValueLabel");
 
-    TargetNameLabel.text = "Rock";
+    TargetNameLabel.text = "No unit selected";
 
     AddButton = _root.Q<Button>("AddButton");
     SubButton = _root.Q<Button>("SubButton");
@@ -38,7 +37,7 @@ public class MyUiController : MonoBehaviour, IObserver<ITargetedProperty>
 
   void Update()
   {
-    if (Input.GetMouseButtonDown(1))
+    if (Input.GetMouseButtonDown(0))
     {
       RaycastHit hitInfo = new RaycastHit();
       bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
@@ -47,16 +46,14 @@ public class MyUiController : MonoBehaviour, IObserver<ITargetedProperty>
         if (hitInfo.transform.gameObject.tag == "Selectable")
         {
           _ss.Target(hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>());
-        }
-        else
-        {
-          _ss.ClearTarget();
+          TargetNameLabel.text = hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>().name;
         }
       }
-      else
-      {
-        _ss.ClearTarget();
-      }
+    }
+    if (Input.GetKey(KeyCode.Escape))
+    {
+      _ss.ClearTarget();
+      TargetNameLabel.text = "No unit selected";
     }
   }
 

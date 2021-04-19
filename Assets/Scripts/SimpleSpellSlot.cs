@@ -15,6 +15,7 @@ public class SimpleSpellSlot : SimpleObservable<ITargetedProperty>, ISpellSlot
 
   private IDisposable _targetSub;
   private IDisposable _casterSub;
+  private string _lastSelectedPropName = String.Empty;
 
   public ITargetedProperty TargetedProperty { get; private set; } = new EmptyTargetedProperty();
 
@@ -39,6 +40,19 @@ public class SimpleSpellSlot : SimpleObservable<ITargetedProperty>, ISpellSlot
       _targetedProperties.AddLast(new EmptyTargetedProperty());
     }
     _node = _targetedProperties.First;
+    if (_lastSelectedPropName != String.Empty)
+    {
+      var i = _targetedProperties.First;
+      do
+      {
+        if (i.Value.CasterProp.Name == _lastSelectedPropName)
+        {
+          _node = i;
+          break;
+        }
+        i = i.Next;
+      } while (i != null);
+    }
     TargetedProperty = _node.Value;
     UpdateSubscription();
     Notify(TargetedProperty);
@@ -55,6 +69,7 @@ public class SimpleSpellSlot : SimpleObservable<ITargetedProperty>, ISpellSlot
       _node = _node.Next;
     }
     TargetedProperty = _node.Value;
+    _lastSelectedPropName = TargetedProperty.CasterProp.Name;
     UpdateSubscription();
     Notify(TargetedProperty);
   }
@@ -69,8 +84,9 @@ public class SimpleSpellSlot : SimpleObservable<ITargetedProperty>, ISpellSlot
     {
       _node = _node.Previous;
     }
-    UpdateSubscription();
     TargetedProperty = _node.Value;
+    _lastSelectedPropName = TargetedProperty.CasterProp.Name;
+    UpdateSubscription();
     Notify(TargetedProperty);
   }
 

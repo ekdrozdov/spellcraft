@@ -7,6 +7,7 @@ public class Mass : SimpleObservableObserver<IObservableProperty>, IObservablePr
   public int Value { get; private set; }
 
   private Volume _volume;
+
   private Density _density;
 
   public Mass(Volume volume, Density density, Rigidbody body)

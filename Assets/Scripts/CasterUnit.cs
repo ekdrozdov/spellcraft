@@ -8,9 +8,9 @@ public class CasterUnit : MonoBehaviour
   void Start()
   {
     _pc = GetComponent<SimplePropertyContainer>();
-    _pc.AddProperty(new Density());
+    _pc.AddProperty(new Density(new IntLimiter(1, 5)));
     var volume = GetComponent<Transform>().localScale.x;
-    _pc.AddProperty(new Volume(GetComponent<Transform>(), (int)volume));
+    _pc.AddProperty(new Volume(GetComponent<Transform>(), GetComponent<BoxCollider>(), new IntLimiter(1, 5), (int)volume));
     _pc.AddProperty(new Force(GetComponent<Rigidbody>(), 10));
   }
 

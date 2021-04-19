@@ -8,16 +8,27 @@ public class Volume : SimpleObservable<IObservableProperty>, IObservableProperty
 
   private Transform _transform;
 
-  public Volume(Transform transform, int Value = 1)
+  private BoxCollider _boxCollider;
+
+  private IntLimiter _limit;
+
+  public Volume(Transform transform, BoxCollider boxCollider, IntLimiter limit, int Value = 1)
   {
     _transform = transform;
-    _transform.localScale = new Vector3(Value, Value, Value);
+    _boxCollider = boxCollider;
+    var size = new Vector3(Value, Value, Value);
+    _transform.localScale = size;
+    _boxCollider.size = size;
+    _limit = limit;
   }
 
   public void Update(int delta)
   {
     Value += delta;
-    _transform.localScale = new Vector3(Value, Value, Value);
+    Value = _limit.Fit(Value);
+    var size = new Vector3(Value, Value, Value);
+    _transform.localScale = size;
+    // _boxCollider.size = size;
     Notify(this);
   }
 }
