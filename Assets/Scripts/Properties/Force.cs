@@ -23,3 +23,24 @@ public class Force : SimpleObservable<IObservableProperty>, IObservableProperty
     Notify(this);
   }
 }
+
+public class ForcePower : SimpleObservable<IObservableProperty>, IObservableProperty
+{
+  private Rigidbody _body;
+  public string Name => "Force";
+  public int Value { get; private set; } = 0;
+  private IntLimiter _limit;
+
+  public ForcePower(IntLimiter limit, int value = 1)
+  {
+    _limit = limit;
+    Value = value;
+  }
+
+  public void Update(int delta)
+  {
+    Value += delta;
+    Value = _limit.Fit(Value);
+    Notify(this);
+  }
+}

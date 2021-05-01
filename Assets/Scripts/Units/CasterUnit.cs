@@ -8,10 +8,10 @@ public class CasterUnit : MonoBehaviour
   void Start()
   {
     _pc = GetComponent<SimplePropertyContainer>();
-    _pc.AddProperty(new Density(new IntLimiter(1, 5)));
+    _pc.AddProperty(new DensityPower(new IntLimiter(1, 5)));
     var volume = GetComponent<Transform>().localScale.x;
-    _pc.AddProperty(new Volume(GetComponent<Transform>(), GetComponent<BoxCollider>(), new IntLimiter(1, 5), (int)volume));
-    _pc.AddProperty(new Force(GetComponent<Rigidbody>(), GetComponent<Transform>(), 5));
+    _pc.AddProperty(new VolumePower(new IntLimiter(1, 5)));
+    _pc.AddProperty(new ForcePower(new IntLimiter(0, 10), 5));
   }
 
   // Update is called once per frame

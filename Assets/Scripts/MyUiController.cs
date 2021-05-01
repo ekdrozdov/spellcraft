@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 public class MyUiController : MonoBehaviour, IObserver<ITargetedProperty>
 {
   public UIDocument UIDocument;
-  public Button AddButton, SubButton, NextButton, PrevButton;
+  public Button PropAddButton, PropSubButton, NextButton, PrevButton, PowerAddButton, PowerSubButton;
   public Label TargetNameLabel, PropNameLabel, PropValueLabel, PowerValueLabel;
   private IPropertyContainer _target;
   private ISpellSlot _ss;
@@ -24,19 +24,48 @@ public class MyUiController : MonoBehaviour, IObserver<ITargetedProperty>
 
     TargetNameLabel.text = "No unit selected";
 
-    AddButton = _root.Q<Button>("AddButton");
-    SubButton = _root.Q<Button>("SubButton");
+    PropAddButton = _root.Q<Button>("PropValueAddButton");
+    PropSubButton = _root.Q<Button>("PropValueSubButton");
+    PowerAddButton = _root.Q<Button>("PowerAdd");
+    PowerSubButton = _root.Q<Button>("PowerSub");
     PrevButton = _root.Q<Button>("Prev");
     NextButton = _root.Q<Button>("Next");
 
-    AddButton.clickable.clicked += AddButtonClick;
-    SubButton.clickable.clicked += SubButtonClick;
+    PropAddButton.clickable.clicked += AddButtonClick;
+    PropSubButton.clickable.clicked += SubButtonClick;
+    PowerAddButton.clickable.clicked += AddPowerClick;
+    PowerSubButton.clickable.clicked += SubPowerClick;
     PrevButton.clickable.clicked += PrevButtonClick;
     NextButton.clickable.clicked += NextButtonClick;
   }
 
   void Update()
   {
+    if (Input.GetKeyDown(KeyCode.R))
+    {
+      PrevButtonClick();
+    }
+    if (Input.GetKeyDown(KeyCode.T))
+    {
+      NextButtonClick();
+    }
+    if (Input.GetKeyDown(KeyCode.F))
+    {
+      SubButtonClick();
+    }
+    if (Input.GetKeyDown(KeyCode.G))
+    {
+      AddButtonClick();
+    }
+    if (Input.GetKeyDown(KeyCode.V))
+    {
+      SubPowerClick();
+    }
+    if (Input.GetKeyDown(KeyCode.B))
+    {
+      AddPowerClick();
+    }
+
     if (Input.GetMouseButtonDown(0))
     {
       RaycastHit hitInfo = new RaycastHit();
@@ -50,11 +79,30 @@ public class MyUiController : MonoBehaviour, IObserver<ITargetedProperty>
         }
       }
     }
-    if (Input.GetKey(KeyCode.Escape))
+    if (Input.GetMouseButtonDown(1))
     {
-      _ss.ClearTarget();
-      TargetNameLabel.text = "No unit selected";
+      RaycastHit hitInfo = new RaycastHit();
+      bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
+
+      if (hit)
+      {
+        if (hitInfo.transform.gameObject.tag == "Selectable")
+        {
+          _ss.Target(hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>());
+          TargetNameLabel.text = hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>().name;
+        }
+      }
     }
+  }
+
+  private void AddPowerClick()
+  {
+    _ss.TargetedProperty.CasterProp.Update(1);
+  }
+
+  private void SubPowerClick()
+  {
+    _ss.TargetedProperty.CasterProp.Update(-1);
   }
 
   private void AddButtonClick()
