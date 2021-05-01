@@ -41,29 +41,35 @@ public class MyUiController : MonoBehaviour, IObserver<ITargetedProperty>
 
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.R))
+    if (Input.GetKeyDown(KeyCode.Q))
     {
       PrevButtonClick();
+      return;
     }
-    if (Input.GetKeyDown(KeyCode.T))
+    if (Input.GetKeyDown(KeyCode.W))
     {
       NextButtonClick();
+      return;
     }
-    if (Input.GetKeyDown(KeyCode.F))
+    if (Input.GetKeyDown(KeyCode.A))
     {
       SubButtonClick();
+      return;
     }
-    if (Input.GetKeyDown(KeyCode.G))
+    if (Input.GetKeyDown(KeyCode.S))
     {
       AddButtonClick();
+      return;
     }
-    if (Input.GetKeyDown(KeyCode.V))
+    if (Input.GetKeyDown(KeyCode.Z))
     {
       SubPowerClick();
+      return;
     }
-    if (Input.GetKeyDown(KeyCode.B))
+    if (Input.GetKeyDown(KeyCode.X))
     {
       AddPowerClick();
+      return;
     }
 
     if (Input.GetMouseButtonDown(0))
@@ -78,6 +84,7 @@ public class MyUiController : MonoBehaviour, IObserver<ITargetedProperty>
           TargetNameLabel.text = hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>().name;
         }
       }
+      return;
     }
     if (Input.GetMouseButtonDown(1))
     {
@@ -92,6 +99,7 @@ public class MyUiController : MonoBehaviour, IObserver<ITargetedProperty>
           TargetNameLabel.text = hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>().name;
         }
       }
+      return;
     }
   }
 
