@@ -12,6 +12,7 @@ public class CasterUnit : MonoBehaviour
     var volume = GetComponent<Transform>().localScale.x;
     _pc.AddProperty(new VolumePower(new IntLimiter(1, 5)));
     _pc.AddProperty(new ForcePower(new IntLimiter(0, 10), 5));
+    _pc.AddProperty(new HealthPower(new IntLimiter(0, 8)));
   }
 
   // Update is called once per frame

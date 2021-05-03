@@ -72,6 +72,12 @@ public class MyUiController : MonoBehaviour, IObserver<ITargetedProperty>
       return;
     }
 
+    if (Input.GetKeyDown(KeyCode.Escape))
+    {
+      _ss.ClearTarget();
+      return;
+    }
+
     if (Input.GetMouseButtonDown(0))
     {
       RaycastHit hitInfo = new RaycastHit();
@@ -80,22 +86,7 @@ public class MyUiController : MonoBehaviour, IObserver<ITargetedProperty>
       {
         if (hitInfo.transform.gameObject.tag == "Selectable")
         {
-          _ss.Target(hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>());
-          TargetNameLabel.text = hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>().name;
-        }
-      }
-      return;
-    }
-    if (Input.GetMouseButtonDown(1))
-    {
-      RaycastHit hitInfo = new RaycastHit();
-      bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
-
-      if (hit)
-      {
-        if (hitInfo.transform.gameObject.tag == "Selectable")
-        {
-          _ss.Target(hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>());
+          _ss.Target(hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>(), hitInfo.transform.gameObject);
           TargetNameLabel.text = hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>().name;
         }
       }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class SimpleSpellSlot : SimpleObservable<ITargetedProperty>, ISpellSlot
 {
@@ -16,6 +17,7 @@ public class SimpleSpellSlot : SimpleObservable<ITargetedProperty>, ISpellSlot
   private IDisposable _targetSub;
   private IDisposable _casterSub;
   private string _lastSelectedPropName = String.Empty;
+  private GameObject _target;
 
   public ITargetedProperty TargetedProperty { get; private set; } = new EmptyTargetedProperty();
 
@@ -29,11 +31,16 @@ public class SimpleSpellSlot : SimpleObservable<ITargetedProperty>, ISpellSlot
 
   public void ApplyUpdate(bool isIncrease)
   {
+    if (_target == null)
+    {
+      ClearTarget();
+    }
     TargetedProperty.TargetProp.Update((isIncrease ? 1 : -1) * TargetedProperty.CasterProp.Value);
   }
 
-  public void Target(IPropertyContainer target)
+  public void Target(IPropertyContainer target, GameObject go)
   {
+    _target = go;
     _targetedProperties = new LinkedList<ITargetedProperty>(_matcher.Match(_caster.ListProperties(), target.ListProperties()));
     if (_targetedProperties.Count == 0)
     {
@@ -60,6 +67,10 @@ public class SimpleSpellSlot : SimpleObservable<ITargetedProperty>, ISpellSlot
 
   public void TargetNextProperty()
   {
+    if (_target == null)
+    {
+      ClearTarget();
+    }
     if (_node.Next == null)
     {
       _node = _targetedProperties.First;
@@ -76,6 +87,10 @@ public class SimpleSpellSlot : SimpleObservable<ITargetedProperty>, ISpellSlot
 
   public void TargetPrevProperty()
   {
+    if (_target == null)
+    {
+      ClearTarget();
+    }
     if (_node.Previous == null)
     {
       _node = _targetedProperties.Last;
