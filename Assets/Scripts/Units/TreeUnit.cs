@@ -18,6 +18,7 @@ public class TreeUnit : MonoBehaviour
     _pc.AddProperty(force);
     _durability = new Durability(7, force, this.gameObject, GetComponent<Transform>(), GetComponent<Rigidbody>());
     _pc.AddProperty(_durability);
+    _pc.AddProperty(new Temperature(new IntLimiter(0, 200), GetComponent<Transform>()));
   }
 
   // Update is called once per frame

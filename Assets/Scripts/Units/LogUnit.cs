@@ -15,6 +15,7 @@ public class LogUnit : MonoBehaviour
     _pc.AddProperty(mass);
     var force = new Force(GetComponent<Rigidbody>(), GetComponent<Transform>());
     _pc.AddProperty(force);
+    _pc.AddProperty(new Temperature(new IntLimiter(0, 200), GetComponent<Transform>()));
   }
 
   // Update is called once per frame

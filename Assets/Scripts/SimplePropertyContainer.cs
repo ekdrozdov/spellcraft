@@ -17,6 +17,13 @@ public class SimplePropertyContainer : MonoBehaviour, IPropertyContainer
     return property;
   }
 
+  public Temperature getTemp()
+  {
+    IObservableProperty temperature;
+    _properties.TryGetValue(typeof(Temperature), out temperature);
+    return (Temperature)temperature;
+  }
+
   public IEnumerable<IObservableProperty> ListProperties()
   {
     return _properties.Select(kvp => kvp.Value);

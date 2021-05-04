@@ -13,6 +13,7 @@ public class CasterUnit : MonoBehaviour
     _pc.AddProperty(new VolumePower(new IntLimiter(1, 5)));
     _pc.AddProperty(new ForcePower(new IntLimiter(0, 10), 5));
     _pc.AddProperty(new HealthPower(new IntLimiter(0, 8)));
+    _pc.AddProperty(new TemperaturePower(new IntLimiter(0, 10)));
   }
 
   // Update is called once per frame
