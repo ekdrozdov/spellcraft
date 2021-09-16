@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Humidity : MonoBehaviour
 {
-  public int Value = 0;
-  public int Capacity = 0;
-  public int SelfBoilingRate = 10;
-  public static int BoilingTemperature = 100;
-  public static int FreezingTemperature = 0;
+  public float Value = 0;
+  public float Capacity = 0;
+  public float BaseBoilingRate = 10;
+  public static float BoilingTemperature = 100;
+  public static float FreezingTemperature = 0;
   private TemperatureV2 _temperature;
 
   void Start()
@@ -18,7 +18,7 @@ public class Humidity : MonoBehaviour
   {
   }
 
-  public int Consume(int incomingHeat)
+  public float Consume(float incomingHeat)
   {
     if (Value == 0) return incomingHeat;
     if (incomingHeat <= 0)
@@ -26,7 +26,7 @@ public class Humidity : MonoBehaviour
       var selfOverheat = _temperature.Value - BoilingTemperature;
       if (selfOverheat > 0)
       {
-        Value -= SelfBoilingRate;
+        Value -= BaseBoilingRate;
         Value = System.Math.Max(Value, 0);
       }
       return incomingHeat;
@@ -35,7 +35,7 @@ public class Humidity : MonoBehaviour
     if (overheat > 0)
     {
       Value -= overheat;
-      Value -= SelfBoilingRate;
+      Value -= BaseBoilingRate;
       Value = System.Math.Max(Value, 0);
       return incomingHeat - overheat;
     }

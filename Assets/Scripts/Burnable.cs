@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Burnable : MonoBehaviour
 {
-  public int IgnitionTemperature = 200;
+  public float IgnitionTemperature = 200;
   public bool IsBurning = false;
-  public int Fuel = 100;
-  public int BurningRate = 20;
+  public float Fuel = 100;
+  public float BurningRate = 20;
   private TemperatureV2 _temperature;
   public GameObject BurnOutPrefab;
 
@@ -19,7 +19,7 @@ public class Burnable : MonoBehaviour
 
   }
 
-  public int Consume(int incomingHeat)
+  public float Consume(float incomingHeat)
   {
     if (_temperature.Value >= IgnitionTemperature)
     {

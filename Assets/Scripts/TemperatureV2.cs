@@ -3,8 +3,8 @@ using static System.Math;
 
 public class TemperatureV2 : MonoBehaviour
 {
-  public int Value = 25;
-  public int Conductivity = 1;
+  public float Value = 25;
+  public float Conductivity = 1;
 
   private Burnable _burnable;
   private Humidity _humidity;
@@ -33,7 +33,7 @@ public class TemperatureV2 : MonoBehaviour
     Value += delta;
   }
 
-  public int GetChange(TemperatureV2 donatingTemp)
+  public float GetChange(TemperatureV2 donatingTemp)
   {
     var delta = donatingTemp.Value - Value;
     return Sign(delta) * Min(Abs(delta), Min(donatingTemp.Conductivity, Conductivity));
