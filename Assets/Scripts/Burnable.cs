@@ -3,10 +3,11 @@ using UnityEngine;
 public class Burnable : MonoBehaviour
 {
   public int IgnitionTemperature = 200;
-  public bool isBurning = false;
+  public bool IsBurning = false;
   public int Fuel = 100;
   public int BurningRate = 20;
   private TemperatureV2 _temperature;
+  public GameObject BurnOutPrefab;
 
   void Start()
   {
@@ -18,19 +19,27 @@ public class Burnable : MonoBehaviour
 
   }
 
-  public void Burn()
+  public int Consume(int incomingHeat)
   {
     if (_temperature.Value >= IgnitionTemperature)
     {
-      isBurning = true;
+      IsBurning = true;
     }
     if (Fuel <= 0)
     {
-      // Destroy.
+      Transform lastTransform = this.transform;
+      GameObject.Destroy(this.gameObject);
+      Instantiate(BurnOutPrefab, lastTransform.position, lastTransform.rotation);
+      return 0;
     }
-    if (isBurning)
+    if (IsBurning)
     {
       Fuel -= BurningRate;
+      if (incomingHeat < 0)
+      {
+        return 0;
+      }
     }
+    return incomingHeat;
   }
 }

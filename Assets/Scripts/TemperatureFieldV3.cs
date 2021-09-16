@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static System.Math;
 
 public class TemperatureFieldV3 : MonoBehaviour
 {
-  public int InitTemperature = 25;
-  public int Conductivity = 5;
+  private TemperatureV2 _temperature;
 
   // Start is called before the first frame update
   void Start()
   {
+    _temperature = gameObject.GetComponent<TemperatureV2>();
     InvokeRepeating("UpdateObjectTemperatures", 1.0f, 1.0f);
   }
 
@@ -22,36 +19,30 @@ public class TemperatureFieldV3 : MonoBehaviour
 
   void UpdateObjectTemperatures()
   {
-    var environmentTemperature = new TemperatureV2();
-    environmentTemperature.Value = InitTemperature;
-    environmentTemperature.Conductivity = Conductivity;
-
-    Burnable[] burnables = Object.FindObjectsOfType<Burnable>();
-    foreach (var burnable in burnables)
+    TemperatureV2[] temperatures = Object.FindObjectsOfType<TemperatureV2>();
+    foreach (var temperature in temperatures)
     {
-      burnable.Burn();
-
-      // Environment temperature impact.
-      var residentTemprature = burnable.GetComponent<TemperatureV2>();
-      var change = getChange(environmentTemperature, residentTemprature);
-      residentTemprature.Value += change;
-
-      // Impact overlapping burnables temperature.
-      Collider[] hitColliders = Physics.OverlapSphere(burnable.transform.position, 3.0f);
-      foreach (var hitCollider in hitColliders)
+      if (temperature != _temperature)
       {
-        var affectedTemperature = hitCollider.GetComponent<TemperatureV2>();
-        if (affectedTemperature != null && affectedTemperature != residentTemprature)
+        // Environment temperature impact.
+        var residentTemprature = temperature.GetComponent<TemperatureV2>();
+        residentTemprature.IncomingExchange(_temperature);
+
+        // Impact overlapping burnables temperature.
+        var burnable = residentTemprature.GetComponent<Burnable>();
+        if (burnable != null && burnable.IsBurning)
         {
-          affectedTemperature.Value += getChange(residentTemprature, affectedTemperature);
+          Collider[] hitColliders = Physics.OverlapSphere(residentTemprature.transform.position, 3.0f);
+          foreach (var hitCollider in hitColliders)
+          {
+            var affectedTemperature = hitCollider.GetComponent<TemperatureV2>();
+            if (affectedTemperature != null && affectedTemperature.Value < residentTemprature.Value)
+            {
+              affectedTemperature.IncomingExchange(residentTemprature);
+            }
+          }
         }
       }
     }
-  }
-
-  private int getChange(TemperatureV2 donatingTemp, TemperatureV2 affectedTemp)
-  {
-    var delta = donatingTemp.Value - affectedTemp.Value;
-    return Sign(delta) * Min(Abs(delta), Min(donatingTemp.Conductivity, affectedTemp.Conductivity));
   }
 }

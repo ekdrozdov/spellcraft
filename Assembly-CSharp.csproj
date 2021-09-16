@@ -74,6 +74,7 @@
      <Compile Include="Assets\Scripts\Burnable.cs" />
      <Compile Include="Assets\Scripts\TemperatureV2.cs" />
      <Compile Include="Assets\Scripts\TemperatureFieldV3.cs" />
+     <Compile Include="Assets\Scripts\Humidity.cs" />
      <None Include="Assets\UI\MyUi.uxml" />
      <None Include="Assets\UI Toolkit\Sprites\EmojiOne Attribution.txt" />
     <Reference Include="UnityEngine">
