@@ -13,7 +13,6 @@ public class Temperature : MonoBehaviour
   {
     _burnable = gameObject.GetComponent<Fuel>();
     _humidity = gameObject.GetComponent<Humidity>();
-
   }
 
   void Update()

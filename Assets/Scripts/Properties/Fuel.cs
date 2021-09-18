@@ -42,9 +42,7 @@ public class Fuel : MonoBehaviour
     }
     if (Value == 0)
     {
-      Transform lastTransform = this.transform;
-      GameObject.Destroy(this.gameObject);
-      Instantiate(BurnOutPrefab, lastTransform.position, lastTransform.rotation);
+      BurnOut();
       return 0;
     }
     if (IsBurning)
@@ -60,5 +58,11 @@ public class Fuel : MonoBehaviour
       }
     }
     return incomingHeat;
+  }
+
+  private void BurnOut()
+  {
+    GameObject.Destroy(gameObject);
+    Instantiate(BurnOutPrefab, transform.position, transform.rotation);
   }
 }

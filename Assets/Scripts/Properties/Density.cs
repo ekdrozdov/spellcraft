@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Density : MonoBehaviour
 {
-  [Range(0.1f, 10)]
+  [Range(0.1f, 5000)]
   public float Value = 1;
 
   void Start()
