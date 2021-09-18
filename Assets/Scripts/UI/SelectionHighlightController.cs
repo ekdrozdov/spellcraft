@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SimpleHighlighter : MonoBehaviour
+public class SelectionHighlightController : MonoBehaviour
 {
   public Color startColor;
   public Color hoverColor = Color.blue;

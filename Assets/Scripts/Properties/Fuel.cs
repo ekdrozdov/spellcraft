@@ -1,20 +1,22 @@
 using UnityEngine;
 
-public class Burnable : MonoBehaviour
+[RequireComponent(typeof(Temperature))]
+public class Fuel : MonoBehaviour
 {
   public float IgnitionTemperature = 200;
   public float ExtinguishTemperature = 100;
   public bool IsBurning = false;
-  public float Fuel = 100;
+  public float Value = 10;
+  public float Limit = 100;
   public float BaseBurningRate = 20;
   public float HeatConvertionPercent = 0.05f;
-  private TemperatureV2 _temperature;
+  private Temperature _temperature;
   private Humidity _humidity;
   public GameObject BurnOutPrefab;
 
   void Start()
   {
-    _temperature = gameObject.GetComponent<TemperatureV2>();
+    _temperature = gameObject.GetComponent<Temperature>();
     _humidity = gameObject.GetComponent<Humidity>();
   }
 
@@ -38,7 +40,7 @@ public class Burnable : MonoBehaviour
         IsBurning = false;
       }
     }
-    if (Fuel == 0)
+    if (Value == 0)
     {
       Transform lastTransform = this.transform;
       GameObject.Destroy(this.gameObject);
@@ -47,11 +49,11 @@ public class Burnable : MonoBehaviour
     }
     if (IsBurning)
     {
-      var fuelLevel = Fuel;
-      Fuel -= BaseBurningRate;
-      Fuel -= overheat * HeatConvertionPercent;
-      Fuel = System.Math.Max(Fuel, 0);
-      var delta = fuelLevel - Fuel;
+      var fuelLevel = Value;
+      Value -= BaseBurningRate;
+      Value -= overheat * HeatConvertionPercent;
+      Value = System.Math.Max(Value, 0);
+      var delta = fuelLevel - Value;
       if (incomingHeat < 0)
       {
         return 0;

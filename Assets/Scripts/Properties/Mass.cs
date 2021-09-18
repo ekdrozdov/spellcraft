@@ -1,33 +1,34 @@
 using UnityEngine;
 
-public class Mass : SimpleObservableObserver<IObservableProperty>, IObservableProperty
+[RequireComponent(typeof(Volume))]
+[RequireComponent(typeof(Density))]
+[RequireComponent(typeof(Rigidbody))]
+public class Mass : MonoBehaviour
 {
-  private Rigidbody _body;
-  public string Name => "Mass";
-  public int Value { get; private set; }
-
+  public float Value;
   private Volume _volume;
-
   private Density _density;
+  private Rigidbody _rigidBody;
 
-  public Mass(Volume volume, Density density, Rigidbody body)
+  void Start()
   {
-    _body = body;
-    _volume = volume;
-    _density = density;
-    _volume.Subscribe(this);
-    _density.Subscribe(this);
-    OnNext(this);
+    _volume = gameObject.GetComponent<Volume>();
+    _density = gameObject.GetComponent<Density>();
+    _rigidBody = gameObject.GetComponent<Rigidbody>();
   }
 
-  public override void OnNext(IObservableProperty value)
+  void Update()
   {
+    // TODO: refactor to reactive paradigm.
     Value = _volume.Value * _density.Value;
-    _body.mass = Value;
+    _rigidBody.mass = Value;
   }
 
-  public void Update(int delta)
+  public void GravitationalInteraction(float value, Vector3 sourcePosition)
   {
-    Notify(this);
+    Vector3 delta = (transform.position - sourcePosition).normalized;
+    var direction = _rigidBody.velocity.normalized != Vector3.zero ? _rigidBody.velocity.normalized : new Vector3(1, 0, 0);
+    _rigidBody.AddForce(delta * value, ForceMode.Impulse);
+    Value = value;
   }
 }

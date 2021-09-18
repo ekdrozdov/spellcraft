@@ -1,50 +1,21 @@
 using UnityEngine;
 
-public class Volume : SimpleObservable<IObservableProperty>, IObservableProperty
+public class Volume : MonoBehaviour
 {
-  public string Name => "Volume";
+  [Range(0.1f, 10)]
+  public float Value = 1;
 
-  public int Value { get; private set; } = 1;
-
-  private Transform _transform;
-
-  private IntLimiter _limit;
-
-  public Volume(Transform transform, BoxCollider boxCollider, IntLimiter limit, int Value = 1)
+  void Start()
   {
-    _transform = transform;
-    var size = new Vector3(Value, Value, Value);
-    _transform.localScale = size;
-    _limit = limit;
   }
 
-  public void Update(int delta)
+  void Update()
+  {
+    transform.localScale = new Vector3(Value, Value, Value);
+  }
+
+  public void Change(int delta)
   {
     Value += delta;
-    Value = _limit.Fit(Value);
-    var size = new Vector3(Value, Value, Value);
-    _transform.localScale = size;
-    Notify(this);
-  }
-}
-
-public class VolumePower : SimpleObservable<IObservableProperty>, IObservableProperty
-{
-  public string Name => "Volume";
-
-  public int Value { get; private set; } = 1;
-
-  private IntLimiter _limit;
-
-  public VolumePower(IntLimiter limit, int Value = 1)
-  {
-    _limit = limit;
-  }
-
-  public void Update(int delta)
-  {
-    Value += delta;
-    Value = _limit.Fit(Value);
-    Notify(this);
   }
 }

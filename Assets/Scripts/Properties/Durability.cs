@@ -1,46 +1,30 @@
 using UnityEngine;
 
-public class Durability : SimpleObservableObserver<IObservableProperty>, IObservableProperty
+[RequireComponent(typeof(Transform))]
+[RequireComponent(typeof(Rigidbody))]
+public class Durability : MonoBehaviour
 {
-  public string Name => "Durability";
-
-  public int Value { get; private set; } = 1;
-
-  private int _durability;
-  private Transform _transform;
+  [Range(0, 10)]
+  public float Value = 1;
   private Rigidbody _body;
-  private GameObject _gameObject;
 
-  public Durability(int durability, Force force, GameObject gameObject, Transform transform, Rigidbody body)
+  void Start()
   {
-    _durability = durability;
-    _gameObject = gameObject;
-    _transform = transform;
-    _body = body;
-    force.Subscribe(this);
+    _body = gameObject.GetComponent<Rigidbody>();
   }
 
-  public void Update(int delta)
+  void Update()
   {
-    if (delta >= _durability)
+    if (Value <= 0)
     {
-      var go = GameObject.Find("Caster");
-      Vector3 d = (_transform.position - go.transform.position).normalized;
-      var direction = _body.velocity.normalized != Vector3.zero ? _body.velocity.normalized : new Vector3(1, 0, 0);
-      _gameObject.GetComponent<TreeUnit>().Break(d * delta);
+      // Vector3 d = (transform.position - sourcePosition).normalized;
+      // var direction = _body.velocity.normalized != Vector3.zero ? _body.velocity.normalized : new Vector3(1, 0, 0);
+      GameObject.Destroy(this.gameObject);
     }
-    Value += delta;
-    Notify(this);
   }
 
-  public override void OnNext(IObservableProperty value)
+  public void Pressure(int value, Vector3 sourcePosition)
   {
-    if (value.Value > _durability)
-    {
-      var go = GameObject.Find("Caster");
-      Vector3 d = (_transform.position - go.transform.position).normalized;
-      var direction = _body.velocity.normalized != Vector3.zero ? _body.velocity.normalized : new Vector3(1, 0, 0);
-      _gameObject.GetComponent<TreeUnit>().Break(d * value.Value);
-    }
+    Value -= value;
   }
 }

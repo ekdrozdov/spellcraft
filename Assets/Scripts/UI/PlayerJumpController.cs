@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SimpleController : MonoBehaviour
+public class PlayerJumpController : MonoBehaviour
 {
   private CharacterController controller;
   private Vector3 playerVelocity;
@@ -15,8 +15,6 @@ public class SimpleController : MonoBehaviour
   {
     controller = gameObject.AddComponent<CharacterController>();
   }
-
-
 
   public void Update()
   {

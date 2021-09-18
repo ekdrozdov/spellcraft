@@ -1,5 +1,5 @@
 using UnityEngine;
-public class SimpleCameraController : MonoBehaviour
+public class PlayerCameraController : MonoBehaviour
 {
   public GameObject player;
   private Vector3 offset;
