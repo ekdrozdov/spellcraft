@@ -1,8 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(ShowOnlyAttribute))]
-public class ShowOnlyDrawer : PropertyDrawer
+[CustomPropertyDrawer(typeof(ReadOnlyPropertyAttribute))]
+public class ReadOnlyPropertyDrawer : PropertyDrawer
 {
   public override void OnGUI(Rect position, SerializedProperty prop, GUIContent label)
   {
