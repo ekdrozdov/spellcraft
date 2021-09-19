@@ -24,10 +24,10 @@ public class Durability : MonoBehaviour
 
   void OnCollisionEnter(Collision collision)
   {
-    Value -= collision.relativeVelocity.magnitude;
+    Pressure(System.Math.Abs(collision.impulse.magnitude), collision.impulse);
   }
 
-  public void Pressure(int value, Vector3 sourcePosition)
+  public void Pressure(float value, Vector3 sourcePosition)
   {
     Value -= value;
     if (Value <= 0)
@@ -41,7 +41,8 @@ public class Durability : MonoBehaviour
     // TODO: inherit velocity and other props.
     // Vector3 d = (transform.position - sourcePosition).normalized;
     // var direction = _body.velocity.normalized != Vector3.zero ? _body.velocity.normalized : new Vector3(1, 0, 0);
+    var lt = transform;
     GameObject.Destroy(gameObject);
-    Instantiate(BrokenPrefab, transform.position, transform.rotation);
+    Instantiate(BrokenPrefab, lt.position, lt.rotation);
   }
 }

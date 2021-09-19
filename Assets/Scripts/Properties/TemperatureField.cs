@@ -35,7 +35,7 @@ public class TemperatureField : MonoBehaviour
           foreach (var hitCollider in hitColliders)
           {
             var affectedTemperature = hitCollider.GetComponent<Temperature>();
-            if (affectedTemperature != null && affectedTemperature.Value < residentTemprature.Value)
+            if (affectedTemperature != null && _temperature != affectedTemperature && affectedTemperature.Value < residentTemprature.Value)
             {
               affectedTemperature.IncomingExchange(residentTemprature);
             }

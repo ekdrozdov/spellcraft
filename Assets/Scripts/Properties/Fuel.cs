@@ -7,7 +7,8 @@ public class Fuel : MonoBehaviour
   public float ExtinguishTemperature = 100;
   public bool IsBurning = false;
   public float Value = 10;
-  public float Limit = 100;
+  // 
+  [ShowOnly] public float Limit = 100;
   public float BaseBurningRate = 20;
   public float HeatConvertionPercent = 0.05f;
   private Temperature _temperature;
