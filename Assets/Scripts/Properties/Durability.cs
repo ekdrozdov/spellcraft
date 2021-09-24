@@ -4,8 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Durability : MonoBehaviour
 {
-  [Range(0, 10000)]
   public float Value = 1;
+  public float Limit = 10;
   public GameObject BrokenPrefab;
   private Rigidbody _body;
 

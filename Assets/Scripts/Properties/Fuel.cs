@@ -1,14 +1,19 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Temperature))]
+[RequireComponent(typeof(Density))]
 public class Fuel : MonoBehaviour
 {
+  [Range(0, 20000)]
+  public float Value = 10;
+  [ReadOnlyProperty]
+  public float Limit = 100;
   public float IgnitionTemperature = 200;
   public float ExtinguishTemperature = 100;
+  [ReadOnlyProperty]
   public bool IsBurning = false;
-  public float Value = 10;
-  [ReadOnlyProperty] public float Limit = 100;
   public float BaseBurningRate = 20;
+  [Range(0, 1)]
   public float HeatConvertionPercent = 0.05f;
   private Temperature _temperature;
   private Humidity _humidity;
@@ -18,6 +23,7 @@ public class Fuel : MonoBehaviour
   {
     _temperature = gameObject.GetComponent<Temperature>();
     _humidity = gameObject.GetComponent<Humidity>();
+    Limit = gameObject.GetComponent<Density>().Value * transform.localScale.x * transform.localScale.y * transform.localScale.z;
   }
 
   void Update()
