@@ -55,5 +55,13 @@
     "files.associations": {
         "*.uss": "css",
         "*.uxml": "xml"
-    }
+    },
+    "[csharp]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": true,
+            "source.organizeImports": true
+        }
+    },
 }

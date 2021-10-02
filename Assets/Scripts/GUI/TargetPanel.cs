@@ -1,20 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using Unity​Engine.UIElements;
 
 public class TargetPanel : MonoBehaviour
 {
   public UIDocument UIDocument;
-  Button button;
-  Label label;
-  TextField textField;
-  // Start is called before the first frame update
+  private Caster caster;
+
+  private Label _targetName;
+  private VisualElement _componentPickerContainer;
+  private VisualElement _componentControlContainer;
+
   void Start()
   {
     var root = UIDocument.rootVisualElement;
-    var uiAsset = (VisualTreeAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/GUI/PropertyDescriptionContainer.uxml", typeof(VisualTreeAsset));
+    _targetName = root.Q<Label>("target-name");
+    _componentPickerContainer = root.Q<VisualElement>("component-picker-container");
+    _componentControlContainer = root.Q<VisualElement>("component-control-container");
+
+    UpdateTargetNotify();
+
+    // var uiAsset = (VisualTreeAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/GUI/PropertyDescriptionContainer.uxml", typeof(VisualTreeAsset));
 
     // VisualElement ui = uiAsset.Instantiate();
     // root.Q<VisualElement>("component-control-container").Add(ui);
@@ -23,8 +28,16 @@ public class TargetPanel : MonoBehaviour
     // button.clickable.clicked += Button_clicked;
   }
 
-  private void Button_clicked()
+  void UpdateTargetNotify()
   {
-    label.text = textField.text;
+    if (caster.target == null)
+    {
+      _targetName.text = "No target selected";
+      _componentPickerContainer.visible = false;
+      _componentControlContainer.visible = false;
+      return;
+    }
+
+    _targetName.text = caster.target.name;
   }
 }
