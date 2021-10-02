@@ -4,40 +4,35 @@ using Unity​Engine.UIElements;
 public class TargetPanel : MonoBehaviour
 {
   public UIDocument UIDocument;
-  private Caster caster;
-
+  private Caster _caster;
+  private ComponentPicker _componentPicker;
   private Label _targetName;
   private VisualElement _componentPickerContainer;
-  private VisualElement _componentControlContainer;
 
   void Start()
   {
     var root = UIDocument.rootVisualElement;
     _targetName = root.Q<Label>("target-name");
     _componentPickerContainer = root.Q<VisualElement>("component-picker-container");
-    _componentControlContainer = root.Q<VisualElement>("component-control-container");
 
-    UpdateTargetNotify();
+    _componentPicker = gameObject.GetComponent<ComponentPicker>();
+    _componentPickerContainer.Add(_componentPicker.Ui);
 
-    // var uiAsset = (VisualTreeAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/GUI/PropertyDescriptionContainer.uxml", typeof(VisualTreeAsset));
-
-    // VisualElement ui = uiAsset.Instantiate();
-    // root.Q<VisualElement>("component-control-container").Add(ui);
-
-    // // add event handler
-    // button.clickable.clicked += Button_clicked;
+    _caster = gameObject.GetComponentInParent<Caster>();
+    _caster.TargetUpdatedEvent += TargetUpdatedHandler;
+    TargetUpdatedHandler(null);
   }
 
-  void UpdateTargetNotify()
+  private void TargetUpdatedHandler(GameObject target)
   {
-    if (caster.target == null)
+    if (_caster.target == null)
     {
       _targetName.text = "No target selected";
       _componentPickerContainer.visible = false;
-      _componentControlContainer.visible = false;
       return;
     }
 
-    _targetName.text = caster.target.name;
+    _targetName.text = _caster.target.name;
+    _componentPickerContainer.visible = true;
   }
 }

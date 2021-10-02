@@ -2,12 +2,22 @@
 <UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="UnityEngine.UIElements" xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" xsi:schemaLocation="UnityEngine.UIElements ../../../UIElementsSchema/UnityEngine.UIElements.xsd">
 
+    <VisualElement name = "power-description-container" class = "flex-rows">
+        <VisualElement name = "power-controls-container" class = "flex-rows">
+            <Button name = "power-sub" text = "-"/>
+            <Button name = "power-add" text = "+"/>
+        </VisualElement>
+        <Label name = "power-name" text = "Power"/>
+        <Label name = "power-value" text = "Value", binding-path="power-value-path"/>
+    </VisualElement>
+
     <VisualElement name = "property-description-container" class = "flex-rows">
+
         <VisualElement name = "property-controls-container" class = "flex-rows">
             <Button name = "prop-sub" text = "-"/>
             <Button name = "prop-add" text = "+"/>
         </VisualElement>
         <Label name = "property-name" text = "Property Name"/>
-        <Label name = "property-value" text = "Property Value"/>
+        <Label name = "property-value" text = "Property Value", binding-path="property-value-path"/>
     </VisualElement>
 </UXML>

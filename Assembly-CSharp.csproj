@@ -50,13 +50,22 @@
      <Compile Include="Assets\Scripts\Properties\Fuel.cs" />
      <Compile Include="Assets\Scripts\Properties\Durability.cs" />
      <Compile Include="Assets\Scripts\GUI\TargetPanel.cs" />
-     <Compile Include="Assets\Scripts\UI\SkillsProvider.cs" />
+     <Compile Include="Assets\Scripts\SkillsProvider.cs" />
      <Compile Include="Assets\Scripts\Properties\DensitySkill.cs" />
      <Compile Include="Assets\Scripts\Caster.cs" />
+     <Compile Include="Assets\Scripts\GUI\ComponentPicker.cs" />
+     <Compile Include="Assets\Scripts\GUI\ComponentControl.cs" />
+     <Compile Include="Assets\Scripts\IRenderable.cs" />
+     <Compile Include="Assets\Scripts\Properties\DurabilitySkill.cs" />
+     <Compile Include="Assets\Scripts\Properties\HumiditySkill.cs" />
+     <Compile Include="Assets\Scripts\Properties\VolumeSkill.cs" />
+     <Compile Include="Assets\Scripts\Properties\FuelSkill.cs" />
+     <Compile Include="Assets\Scripts\Properties\TemperatureSkill.cs" />
      <None Include="Assets\Scripts\GUI\TargetPanel.uss" />
      <None Include="Assets\Scripts\GUI\TargetPanel.uxml" />
      <None Include="Assets\UI Toolkit\Sprites\EmojiOne Attribution.txt" />
-     <None Include="Assets\Scripts\GUI\PropertyDescriptionContainer.uxml" />
+     <None Include="Assets\Scripts\GUI\ComponentControl.uxml" />
+     <None Include="Assets\Scripts\GUI\ComponentPicker.uxml" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

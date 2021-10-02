@@ -9,13 +9,5 @@
     </VisualElement>
 
     <VisualElement name = "component-picker-container" class = "flex-rows">
-        <VisualElement name = "component-picker-controls-container" class = "flex-rows">
-            <Button name = "prev-component" text = "&lt;"/>
-            <Button name = "next-component" text = "&gt;"/>
-        </VisualElement>
-        <Label name = "component-name" text = "Component Name"/>
-    </VisualElement>
-
-    <VisualElement name = "component-control-container" class = "flex-columns">
     </VisualElement>
 </UXML>

@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Caster : MonoBehaviour
 {
-  public GameObject target;
+  public GameObject target = null;
+  public delegate void TargetUpdatedEventHandler(GameObject target);
+  public event TargetUpdatedEventHandler TargetUpdatedEvent;
 
   void Update()
   {
@@ -12,17 +14,17 @@ public class Caster : MonoBehaviour
       bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
       if (hit)
       {
-        if (hitInfo.transform.gameObject.tag == "Selectable")
+        if (hitInfo.transform.gameObject.GetComponent<SelectionHighlightController>() != null)
         {
-          // _ss.Target(hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>());
-          // TargetNameLabel.text = hitInfo.transform.gameObject.GetComponent<SimplePropertyContainer>().name;
+          target = hitInfo.transform.gameObject;
+          TargetUpdatedEvent?.Invoke(target);
         }
       }
     }
     if (Input.GetKey(KeyCode.Escape))
     {
-      // _ss.ClearTarget();
-      // TargetNameLabel.text = "No unit selected";
+      target = null;
+      TargetUpdatedEvent?.Invoke(target);
     }
   }
 }

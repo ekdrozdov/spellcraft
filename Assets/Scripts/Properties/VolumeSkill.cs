@@ -1,14 +1,14 @@
 using UnityEngine;
 using Unity​Engine.UIElements;
 
-public class DensitySkill : MonoBehaviour, IRenderable
+public class VolumeSkill : MonoBehaviour, IRenderable
 {
   public VisualTreeAsset Asset;
   public VisualElement Ui;
   [Range(0.01f, 100)]
   public float Power = 1;
-  public string Name => "Density";
-  private Density _targetDensity;
+  public string Name => "Volume";
+  private Rigidbody _targetDurability;
 
   void Start()
   {
@@ -31,23 +31,22 @@ public class DensitySkill : MonoBehaviour, IRenderable
     Power++;
   }
 
-  public void Descrease()
-  {
-    _targetDensity.Value -= Power;
-  }
-
   public void Increase()
   {
-    _targetDensity.Value += Power;
+    // _targetDurability.Value += Power;
   }
 
-  public void Bind(Density targetDensity)
+  public void Descrease()
   {
-    _targetDensity = targetDensity;
-
-    Ui.Q<Label>("property-value").text = _targetDensity.Value.ToString();
+    // _targetDurability.Value -= Power;
   }
 
+  public void Bind(Rigidbody targetDurability)
+  {
+    _targetDurability = targetDurability;
+
+    Ui.Q<Label>("property-value").text = "no-op";
+  }
   public VisualElement Render()
   {
     return Ui;
