@@ -1,33 +1,36 @@
 using UnityEngine;
 
-public class Mass : SimpleObservableObserver<IObservableProperty>, IObservableProperty
+[RequireComponent(typeof(Density))]
+[RequireComponent(typeof(Rigidbody))]
+public class Mass : MonoBehaviour
 {
-  private Rigidbody _body;
-  public string Name => "Mass";
-  public int Value { get; private set; }
-
-  private Volume _volume;
-
+  public float DebugPushForce = 10;
   private Density _density;
+  private Rigidbody _rigidBody;
 
-  public Mass(Volume volume, Density density, Rigidbody body)
+  void Start()
   {
-    _body = body;
-    _volume = volume;
-    _density = density;
-    _volume.Subscribe(this);
-    _density.Subscribe(this);
-    OnNext(this);
+    _density = gameObject.GetComponent<Density>();
+    _rigidBody = gameObject.GetComponent<Rigidbody>();
   }
 
-  public override void OnNext(IObservableProperty value)
+  void Update()
   {
-    Value = _volume.Value * _density.Value;
-    _body.mass = Value;
+    // TODO: refactor to reactive paradigm.
+    var size = transform.localScale;
+    _rigidBody.mass = size.x * size.y * size.z * _density.Value;
   }
 
-  public void Update(int delta)
+  [ContextMenu("PushZ")]
+  void PushZ()
   {
-    Notify(this);
+    GravitationalInteraction(DebugPushForce, transform.position + new Vector3(0, 0, -1));
+  }
+
+  public void GravitationalInteraction(float value, Vector3 sourcePosition)
+  {
+    Vector3 direction = (transform.position - sourcePosition).normalized;
+    // var direction = _rigidBody.velocity.normalized != Vector3.zero ? _rigidBody.velocity.normalized : new Vector3(1, 0, 0);
+    _rigidBody.AddForce(direction * value, ForceMode.Impulse);
   }
 }

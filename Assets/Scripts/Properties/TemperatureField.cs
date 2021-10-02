@@ -1,51 +1,44 @@
 using UnityEngine;
-using System.Linq;
-using System.Collections.Generic;
 
+[RequireComponent(typeof(Temperature))]
 public class TemperatureField : MonoBehaviour
 {
-  float[,] mesh2d;
-  private const int size = 100;
-  // Start is called before the first frame update
+  private Temperature _temperature;
+
   void Start()
   {
-    const float initVal = 10;
-    mesh2d = new float[size, size];
-    for (int m = 0; m < size; m++)
-    {
-      for (int n = 0; n < size; n++)
-      {
-        mesh2d[m, n] = initVal;
-      }
-    }
+    _temperature = gameObject.GetComponent<Temperature>();
+    InvokeRepeating("Interaction", 1.0f, 1.0f);
   }
 
-  // Update is called once per frame
   void Update()
   {
 
   }
 
-  public void Notify(Vector3 position, float value)
+  void Interaction()
   {
-    if (position.x > size || position.z > size || position.x < 0 || position.z < 0)
+    Temperature[] temperatures = Object.FindObjectsOfType<Temperature>();
+    foreach (var temperature in temperatures)
     {
-      return;
-    }
-    mesh2d[(int)position.x, (int)position.z] = value;
-    var transformArray = FindObjectsOfType<GameObject>();
-    foreach (var item in transformArray)
-    {
-      if (Vector3.Distance(item.GetComponent<Transform>().position, position) <= 4)
+      if (temperature != _temperature)
       {
-        var c = item.GetComponent<SimplePropertyContainer>();
-        if (c != null)
+        // Environment temperature impact.
+        var residentTemprature = temperature.GetComponent<Temperature>();
+        residentTemprature.IncomingExchange(_temperature);
+
+        // Impact overlapping burnables temperature.
+        var burnable = residentTemprature.GetComponent<Fuel>();
+        if (burnable != null && burnable.IsBurning)
         {
-          var t = c.getTemp();
-          if (t != null)
+          Collider[] hitColliders = Physics.OverlapSphere(residentTemprature.transform.position, 3.0f);
+          foreach (var hitCollider in hitColliders)
           {
-            var delta = value - t.Value;
-            t.Update((int)delta);
+            var affectedTemperature = hitCollider.GetComponent<Temperature>();
+            if (affectedTemperature != null && _temperature != affectedTemperature && affectedTemperature.Value < residentTemprature.Value)
+            {
+              affectedTemperature.IncomingExchange(residentTemprature);
+            }
           }
         }
       }

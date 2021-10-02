@@ -1,47 +1,40 @@
-using System.Collections.Generic;
 using UnityEngine;
+using static System.Math;
 
-public class Temperature : SimpleObservable<IObservableProperty>, IObservableProperty
+public class Temperature : MonoBehaviour
 {
-  public string Name => "Temperature";
+  public float Value = 25;
+  public float Conductivity = 1;
 
-  public int Value { get; private set; } = 10;
+  private Fuel _burnable;
+  private Humidity _humidity;
 
-  private IntLimiter _limit;
-  private Transform _transform;
-
-  public Temperature(IntLimiter limit, Transform transform)
+  void Start()
   {
-    _limit = limit;
-    _transform = transform;
+    _burnable = gameObject.GetComponent<Fuel>();
+    _humidity = gameObject.GetComponent<Humidity>();
   }
 
-  public void Update(int delta)
+  void Update()
+  { }
+
+  public void IncomingExchange(Temperature affecter)
   {
+    var delta = GetChange(affecter);
+    if (_humidity != null)
+    {
+      delta = _humidity.Consume(delta);
+    }
+    if (_burnable != null)
+    {
+      delta = _burnable.Consume(delta);
+    }
     Value += delta;
-    Value = _limit.Fit(Value);
-    Notify(this);
-    GameObject.Find("Plane").GetComponent<TemperatureField>().Notify(_transform.position, Value);
-  }
-}
-
-public class TemperaturePower : SimpleObservable<IObservableProperty>, IObservableProperty
-{
-  public string Name => "Temperature";
-
-  public int Value { get; private set; } = 1;
-
-  private IntLimiter _limit;
-
-  public TemperaturePower(IntLimiter limit)
-  {
-    _limit = limit;
   }
 
-  public void Update(int delta)
+  public float GetChange(Temperature donatingTemp)
   {
-    Value += delta;
-    Value = _limit.Fit(Value);
-    Notify(this);
+    var delta = donatingTemp.Value - Value;
+    return Sign(delta) * Min(Abs(delta), Min(donatingTemp.Conductivity, Conductivity));
   }
 }

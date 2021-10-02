@@ -1,41 +1,22 @@
-public class Density : SimpleObservable<IObservableProperty>, IObservableProperty
+using UnityEngine;
+
+public class Density : MonoBehaviour
 {
-  public string Name => "Density";
+  [Range(0.01f, 5000)]
+  public float Value = 1;
 
-  public int Value { get; private set; } = 1;
-
-  private IntLimiter _limit;
-
-  public Density(IntLimiter limit)
+  void Start()
   {
-    _limit = limit;
+
   }
 
-  public void Update(int delta)
+  void Update()
+  {
+
+  }
+
+  public void Change(int delta)
   {
     Value += delta;
-    Value = _limit.Fit(Value);
-    Notify(this);
-  }
-}
-
-public class DensityPower : SimpleObservable<IObservableProperty>, IObservableProperty
-{
-  public string Name => "Density";
-
-  public int Value { get; private set; } = 1;
-
-  private IntLimiter _limit;
-
-  public DensityPower(IntLimiter limit)
-  {
-    _limit = limit;
-  }
-
-  public void Update(int delta)
-  {
-    Value += delta;
-    Value = _limit.Fit(Value);
-    Notify(this);
   }
 }

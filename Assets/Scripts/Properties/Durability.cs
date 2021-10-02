@@ -1,46 +1,48 @@
 using UnityEngine;
 
-public class Durability : SimpleObservableObserver<IObservableProperty>, IObservableProperty
+[RequireComponent(typeof(Transform))]
+[RequireComponent(typeof(Rigidbody))]
+public class Durability : MonoBehaviour
 {
-  public string Name => "Durability";
-
-  public int Value { get; private set; } = 1;
-
-  private int _durability;
-  private Transform _transform;
+  public float Value = 1;
+  public float Limit = 10;
+  public GameObject BrokenPrefab;
   private Rigidbody _body;
-  private GameObject _gameObject;
 
-  public Durability(int durability, Force force, GameObject gameObject, Transform transform, Rigidbody body)
+  void Start()
   {
-    _durability = durability;
-    _gameObject = gameObject;
-    _transform = transform;
-    _body = body;
-    force.Subscribe(this);
+    _body = gameObject.GetComponent<Rigidbody>();
   }
 
-  public void Update(int delta)
+  void Update()
   {
-    if (delta >= _durability)
+    if (Value <= 0)
     {
-      var go = GameObject.Find("Caster");
-      Vector3 d = (_transform.position - go.transform.position).normalized;
-      var direction = _body.velocity.normalized != Vector3.zero ? _body.velocity.normalized : new Vector3(1, 0, 0);
-      _gameObject.GetComponent<TreeUnit>().Break(d * delta);
+      GameObject.Destroy(this.gameObject);
     }
-    Value += delta;
-    Notify(this);
   }
 
-  public override void OnNext(IObservableProperty value)
+  void OnCollisionEnter(Collision collision)
   {
-    if (value.Value > _durability)
+    Pressure(System.Math.Abs(collision.impulse.magnitude), collision.impulse);
+  }
+
+  public void Pressure(float value, Vector3 sourcePosition)
+  {
+    Value -= value;
+    if (Value <= 0)
     {
-      var go = GameObject.Find("Caster");
-      Vector3 d = (_transform.position - go.transform.position).normalized;
-      var direction = _body.velocity.normalized != Vector3.zero ? _body.velocity.normalized : new Vector3(1, 0, 0);
-      _gameObject.GetComponent<TreeUnit>().Break(d * value.Value);
+      Break();
     }
+  }
+
+  private void Break()
+  {
+    // TODO: inherit velocity and other props.
+    // Vector3 d = (transform.position - sourcePosition).normalized;
+    // var direction = _body.velocity.normalized != Vector3.zero ? _body.velocity.normalized : new Vector3(1, 0, 0);
+    var lt = transform;
+    GameObject.Destroy(gameObject);
+    Instantiate(BrokenPrefab, lt.position, lt.rotation);
   }
 }

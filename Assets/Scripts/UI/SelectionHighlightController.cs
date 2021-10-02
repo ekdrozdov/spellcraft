@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public class SimpleHighlighter : MonoBehaviour
+public class SelectionHighlightController : MonoBehaviour
 {
   public Color startColor;
   public Color hoverColor = Color.blue;
-  bool mouseOver = false;
 
   void Start()
   {
@@ -18,7 +17,6 @@ public class SimpleHighlighter : MonoBehaviour
 
   private void OnMouseEnter()
   {
-    mouseOver = true;
     GetComponent<Renderer>().material.color = hoverColor;
   }
 
@@ -26,7 +24,6 @@ public class SimpleHighlighter : MonoBehaviour
   private void OnMouseExit()
 
   {
-    mouseOver = false;
     GetComponent<Renderer>().material.color = startColor;
   }
 
