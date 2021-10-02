@@ -30,7 +30,6 @@ public class Mass : MonoBehaviour
   public void GravitationalInteraction(float value, Vector3 sourcePosition)
   {
     Vector3 direction = (transform.position - sourcePosition).normalized;
-    // var direction = _rigidBody.velocity.normalized != Vector3.zero ? _rigidBody.velocity.normalized : new Vector3(1, 0, 0);
     _rigidBody.AddForce(direction * value, ForceMode.Impulse);
   }
 }

@@ -25,6 +25,14 @@ public class MassSkill : MonoBehaviour, IRenderable
     Ui.Q<Label>("power-value").text = Power.ToString();
   }
 
+  void Update()
+  {
+    if (_targetDurability != null)
+    {
+      Ui.Q<Label>("power-value").text = Power.ToString();
+    }
+  }
+
   public void DescreasePower()
   {
     Power--;

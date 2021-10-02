@@ -22,6 +22,15 @@ public class DurabilitySkill : MonoBehaviour, IRenderable
     Ui.Q<Label>("power-value").text = Power.ToString();
   }
 
+  void Update()
+  {
+    if (_targetDurability != null)
+    {
+      Ui.Q<Label>("power-value").text = Power.ToString();
+      Ui.Q<Label>("property-value").text = _targetDurability.Value.ToString();
+    }
+  }
+
   public void DescreasePower()
   {
     Power--;

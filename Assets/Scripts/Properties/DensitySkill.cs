@@ -22,6 +22,15 @@ public class DensitySkill : MonoBehaviour, IRenderable
     Ui.Q<Label>("power-value").text = Power.ToString();
   }
 
+  void Update()
+  {
+    if (_targetDensity != null)
+    {
+      Ui.Q<Label>("power-value").text = Power.ToString();
+      Ui.Q<Label>("property-value").text = _targetDensity.Value.ToString();
+    }
+  }
+
   public void DescreasePower()
   {
     Power--;

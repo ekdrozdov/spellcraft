@@ -8,7 +8,7 @@
             <Button name = "power-add" text = "+"/>
         </VisualElement>
         <Label name = "power-name" text = "Power"/>
-        <Label name = "power-value" text = "Value", binding-path="power-value-path"/>
+        <Label name = "power-value" text = "Value"/>
     </VisualElement>
 
     <VisualElement name = "property-description-container" class = "flex-rows">
@@ -18,6 +18,6 @@
             <Button name = "prop-add" text = "+"/>
         </VisualElement>
         <Label name = "property-name" text = "Property Name"/>
-        <Label name = "property-value" text = "Property Value", binding-path="property-value-path"/>
+        <Label name = "property-value" text = "Property Value"/>
     </VisualElement>
 </UXML>
