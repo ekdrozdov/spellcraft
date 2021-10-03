@@ -6,6 +6,7 @@ public class Mass : MonoBehaviour
 {
   public delegate void ImpulseEventHandler(Vector3 impulse);
   public event ImpulseEventHandler ImpulseEvent;
+  public float ShadowValue;
   private Density _density;
   private Rigidbody _rigidBody;
 
@@ -25,6 +26,7 @@ public class Mass : MonoBehaviour
     // TODO: refactor to reactive paradigm.
     var size = transform.localScale;
     _rigidBody.mass = size.x * size.y * size.z * _density.Value;
+    ShadowValue = _rigidBody.mass;
   }
 
   public void GravitationalInteraction(float magnitude, Vector3 sourcePosition)
