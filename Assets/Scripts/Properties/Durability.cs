@@ -4,9 +4,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Durability : MonoBehaviour
 {
+
+  public delegate void BreakEventHandler(GameObject corpse);
+  public event BreakEventHandler BreakEvent;
   public float Value = 1;
   public float Limit = 10;
-  public GameObject BrokenPrefab;
+  public GameObject BrokenPrefab = null;
   private Rigidbody _body;
 
   void Start()
@@ -30,11 +33,15 @@ public class Durability : MonoBehaviour
 
   private void Break(Vector3 impulse)
   {
-    // TODO: inherit velocity and other props.
-    // Vector3 d = (transform.position - sourcePosition).normalized;
-    // var direction = _body.velocity.normalized != Vector3.zero ? _body.velocity.normalized : new Vector3(1, 0, 0);
     GameObject.Destroy(gameObject);
-    var corpse = Instantiate(BrokenPrefab, transform.position, transform.rotation);
-    corpse.GetComponent<Mass>()?.GravitationalInteraction(impulse.magnitude, -impulse);
+    if (BrokenPrefab != null)
+    {
+      var corpse = Instantiate(BrokenPrefab, transform.position, transform.rotation);
+      corpse.GetComponent<Mass>()?.GravitationalInteraction(impulse.magnitude, -impulse);
+      gameObject.GetComponent<IBreakableInheritance>().InheritComponents(corpse);
+      BreakEvent?.Invoke(corpse);
+      return;
+    }
+    BreakEvent?.Invoke(null);
   }
 }

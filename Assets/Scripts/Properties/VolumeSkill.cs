@@ -8,18 +8,27 @@ public class VolumeSkill : MonoBehaviour, IRenderable
   [Range(0.01f, 100)]
   public float Power = 1;
   public string Name => "Volume";
-  private Rigidbody _targetDurability;
+  private Transform _targetDurability;
 
   void Start()
   {
     Ui = Asset.Instantiate();
     Ui.Q<Button>("prop-sub").clickable.clicked += Descrease;
     Ui.Q<Button>("prop-add").clickable.clicked += Increase;
-    Ui.Q<Label>("property-name").text = "Value";
+    Ui.Q<Label>("property-name").text = "Value (xyz)";
 
     Ui.Q<Button>("power-sub").clickable.clicked += DescreasePower;
     Ui.Q<Button>("power-add").clickable.clicked += IncreasePower;
     Ui.Q<Label>("power-value").text = Power.ToString();
+  }
+
+  void Update()
+  {
+    if (_targetDurability != null)
+    {
+      Ui.Q<Label>("power-value").text = Power.ToString();
+      Ui.Q<Label>("property-value").text = _targetDurability.localScale.ToString();
+    }
   }
 
   public void DescreasePower()
@@ -33,15 +42,15 @@ public class VolumeSkill : MonoBehaviour, IRenderable
 
   public void Increase()
   {
-    // _targetDurability.Value += Power;
+    _targetDurability.localScale += Vector3.one * Power;
   }
 
   public void Descrease()
   {
-    // _targetDurability.Value -= Power;
+    _targetDurability.localScale -= Vector3.one * Power;
   }
 
-  public void Bind(Rigidbody targetDurability)
+  public void Bind(Transform targetDurability)
   {
     _targetDurability = targetDurability;
 

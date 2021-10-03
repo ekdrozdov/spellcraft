@@ -12,6 +12,7 @@ public class SkillsProvider : MonoBehaviour
   private HumiditySkill _humiditySkill;
   private MassSkill _massSkill;
   private TemperatureSkill _temperatureSkill;
+  private VolumeSkill _volumeSkill;
   private List<IRenderable> _renderableSkills = new List<IRenderable>();
 
   void Start()
@@ -23,6 +24,7 @@ public class SkillsProvider : MonoBehaviour
     _humiditySkill = GetComponent<HumiditySkill>();
     _massSkill = GetComponent<MassSkill>();
     _temperatureSkill = GetComponent<TemperatureSkill>();
+    _volumeSkill = GetComponent<VolumeSkill>();
 
     _caster.TargetUpdatedEvent += TargetUpdatedHandler;
   }
@@ -81,6 +83,13 @@ public class SkillsProvider : MonoBehaviour
     {
       _temperatureSkill.Bind(targetTemperature);
       _renderableSkills.Add(_temperatureSkill);
+    }
+
+    var targetVolume = target.GetComponent<Transform>();
+    if (targetVolume != null && _volumeSkill != null)
+    {
+      _volumeSkill.Bind(targetVolume);
+      _renderableSkills.Add(_volumeSkill);
     }
 
     SkillsUpdatedEvent.Invoke(_renderableSkills);
