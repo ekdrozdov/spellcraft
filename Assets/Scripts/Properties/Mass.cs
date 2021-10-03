@@ -4,14 +4,20 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Mass : MonoBehaviour
 {
-  public float DebugPushForce = 10;
+  public delegate void ImpulseEventHandler(Vector3 impulse);
+  public event ImpulseEventHandler ImpulseEvent;
   private Density _density;
   private Rigidbody _rigidBody;
+
+  void Awake()
+  {
+    _rigidBody = gameObject.GetComponent<Rigidbody>();
+
+  }
 
   void Start()
   {
     _density = gameObject.GetComponent<Density>();
-    _rigidBody = gameObject.GetComponent<Rigidbody>();
   }
 
   void Update()
@@ -21,15 +27,10 @@ public class Mass : MonoBehaviour
     _rigidBody.mass = size.x * size.y * size.z * _density.Value;
   }
 
-  [ContextMenu("PushZ")]
-  void PushZ()
-  {
-    GravitationalInteraction(DebugPushForce, transform.position + new Vector3(0, 0, -1));
-  }
-
-  public void GravitationalInteraction(float value, Vector3 sourcePosition)
+  public void GravitationalInteraction(float magnitude, Vector3 sourcePosition)
   {
     Vector3 direction = (transform.position - sourcePosition).normalized;
-    _rigidBody.AddForce(direction * value, ForceMode.Impulse);
+    _rigidBody.AddForce(direction * magnitude, ForceMode.Impulse);
+    ImpulseEvent?.Invoke(direction * magnitude);
   }
 }

@@ -14,35 +14,27 @@ public class Durability : MonoBehaviour
     _body = gameObject.GetComponent<Rigidbody>();
   }
 
-  void Update()
-  {
-    if (Value <= 0)
-    {
-      GameObject.Destroy(this.gameObject);
-    }
-  }
-
   void OnCollisionEnter(Collision collision)
   {
-    Pressure(System.Math.Abs(collision.impulse.magnitude), collision.impulse);
+    Pressure(collision.impulse);
   }
 
-  public void Pressure(float value, Vector3 sourcePosition)
+  public void Pressure(Vector3 impulse)
   {
-    Value -= value;
+    Value -= System.Math.Abs(impulse.magnitude);
     if (Value <= 0)
     {
-      Break();
+      Break(impulse);
     }
   }
 
-  private void Break()
+  private void Break(Vector3 impulse)
   {
     // TODO: inherit velocity and other props.
     // Vector3 d = (transform.position - sourcePosition).normalized;
     // var direction = _body.velocity.normalized != Vector3.zero ? _body.velocity.normalized : new Vector3(1, 0, 0);
-    var lt = transform;
     GameObject.Destroy(gameObject);
-    Instantiate(BrokenPrefab, lt.position, lt.rotation);
+    var corpse = Instantiate(BrokenPrefab, transform.position, transform.rotation);
+    corpse.GetComponent<Mass>()?.GravitationalInteraction(impulse.magnitude, -impulse);
   }
 }
