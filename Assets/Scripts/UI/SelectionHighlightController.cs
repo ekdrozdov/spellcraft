@@ -10,11 +10,6 @@ public class SelectionHighlightController : MonoBehaviour
     startColor = GetComponent<Renderer>().material.color;
   }
 
-  void Update()
-  {
-
-  }
-
   private void OnMouseEnter()
   {
     GetComponent<Renderer>().material.color = hoverColor;
@@ -22,7 +17,6 @@ public class SelectionHighlightController : MonoBehaviour
 
 
   private void OnMouseExit()
-
   {
     GetComponent<Renderer>().material.color = startColor;
   }

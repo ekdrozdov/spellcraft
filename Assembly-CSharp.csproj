@@ -37,17 +37,35 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Properties\Temperature.cs" />
-     <Compile Include="Assets\Scripts\UI\PlayerMoveController.cs" />
-     <Compile Include="Assets\Scripts\UI\PlayerCameraController.cs" />
-     <Compile Include="Assets\Scripts\Properties\Fuel.cs" />
      <Compile Include="Assets\Scripts\UI\SelectionHighlightController.cs" />
-     <Compile Include="Assets\Scripts\Properties\Durability.cs" />
-     <Compile Include="Assets\Scripts\UI\PlayerJumpController.cs" />
-     <Compile Include="Assets\Scripts\Properties\Density.cs" />
-     <Compile Include="Assets\Scripts\Properties\TemperatureField.cs" />
      <Compile Include="Assets\Scripts\Properties\Humidity.cs" />
-     <Compile Include="Assets\Scripts\Properties\Mass.cs" />
      <Compile Include="Assets\Scripts\ReadOnlyPropertyAttribute.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerCameraController.cs" />
+     <Compile Include="Assets\Scripts\Properties\Density.cs" />
+     <Compile Include="Assets\Scripts\Properties\Mass.cs" />
+     <Compile Include="Assets\Scripts\Properties\MassSkill.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerJumpController.cs" />
+     <Compile Include="Assets\Scripts\Properties\TemperatureField.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerMoveController.cs" />
+     <Compile Include="Assets\Scripts\Properties\Fuel.cs" />
+     <Compile Include="Assets\Scripts\Properties\Durability.cs" />
+     <Compile Include="Assets\Scripts\GUI\TargetPanel.cs" />
+     <Compile Include="Assets\Scripts\SkillsProvider.cs" />
+     <Compile Include="Assets\Scripts\Properties\DensitySkill.cs" />
+     <Compile Include="Assets\Scripts\Caster.cs" />
+     <Compile Include="Assets\Scripts\GUI\ComponentPicker.cs" />
+     <Compile Include="Assets\Scripts\GUI\ComponentControl.cs" />
+     <Compile Include="Assets\Scripts\IRenderable.cs" />
+     <Compile Include="Assets\Scripts\Properties\DurabilitySkill.cs" />
+     <Compile Include="Assets\Scripts\Properties\HumiditySkill.cs" />
+     <Compile Include="Assets\Scripts\Properties\VolumeSkill.cs" />
+     <Compile Include="Assets\Scripts\Properties\FuelSkill.cs" />
+     <Compile Include="Assets\Scripts\Properties\TemperatureSkill.cs" />
+     <None Include="Assets\Scripts\GUI\TargetPanel.uss" />
+     <None Include="Assets\Scripts\GUI\TargetPanel.uxml" />
+     <None Include="Assets\UI Toolkit\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\Scripts\GUI\ComponentControl.uxml" />
+     <None Include="Assets\Scripts\GUI\ComponentPicker.uxml" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -183,9 +201,6 @@
     <Reference Include="UnityEngine.UIModule">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UIElementsModule">
-        <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIElementsModule.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UIElementsNativeModule">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIElementsNativeModule.dll</HintPath>
     </Reference>
@@ -257,9 +272,6 @@
     </Reference>
     <Reference Include="UnityEditor.SceneTemplateModule">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.1f1\Editor\Data\Managed\UnityEngine\UnityEditor.SceneTemplateModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UIElementsModule">
-        <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.1f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIElementsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UIElementsSamplesModule">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.1f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIElementsSamplesModule.dll</HintPath>
@@ -615,8 +627,32 @@
     <Reference Include="System.Xml.XPath.XDocument">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.1f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.UIElements.Text">
+        <HintPath>C:\Users\Edward Drozdov\Documents\home\projects\unity\Spellcraft\Library\ScriptAssemblies\Unity.UIElements.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextCore">
+        <HintPath>C:\Users\Edward Drozdov\Documents\home\projects\unity\Spellcraft\Library\ScriptAssemblies\Unity.TextCore.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
         <HintPath>C:\Users\Edward Drozdov\Documents\home\projects\unity\Spellcraft\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextCore.Editor">
+        <HintPath>C:\Users\Edward Drozdov\Documents\home\projects\unity\Spellcraft\Library\ScriptAssemblies\Unity.TextCore.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UIElementsModule">
+        <HintPath>C:\Users\Edward Drozdov\Documents\home\projects\unity\Spellcraft\Library\ScriptAssemblies\UnityEditor.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.UIElements.Editor.Text">
+        <HintPath>C:\Users\Edward Drozdov\Documents\home\projects\unity\Spellcraft\Library\ScriptAssemblies\Unity.UIElements.Editor.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+        <HintPath>C:\Users\Edward Drozdov\Documents\home\projects\unity\Spellcraft\Library\ScriptAssemblies\UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsInputSystemModule">
+        <HintPath>C:\Users\Edward Drozdov\Documents\home\projects\unity\Spellcraft\Library\ScriptAssemblies\UnityEngine.UIElementsInputSystemModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsGameObjectsModule">
+        <HintPath>C:\Users\Edward Drozdov\Documents\home\projects\unity\Spellcraft\Library\ScriptAssemblies\UnityEngine.UIElementsGameObjectsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
