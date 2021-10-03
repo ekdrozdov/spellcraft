@@ -4,17 +4,15 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Durability : MonoBehaviour
 {
-
-  public delegate void BreakEventHandler(GameObject corpse);
-  public event BreakEventHandler BreakEvent;
   public float Value = 1;
   public float Limit = 10;
-  public GameObject BrokenPrefab = null;
   private Rigidbody _body;
+  private IBreakable _breakable;
 
   void Start()
   {
     _body = gameObject.GetComponent<Rigidbody>();
+    _breakable = gameObject.GetComponent<IBreakable>();
   }
 
   void OnCollisionEnter(Collision collision)
@@ -27,21 +25,7 @@ public class Durability : MonoBehaviour
     Value -= System.Math.Abs(impulse.magnitude);
     if (Value <= 0)
     {
-      Break(impulse);
+      _breakable.Break(impulse);
     }
-  }
-
-  private void Break(Vector3 impulse)
-  {
-    GameObject.Destroy(gameObject);
-    if (BrokenPrefab != null)
-    {
-      var corpse = Instantiate(BrokenPrefab, transform.position, transform.rotation);
-      corpse.GetComponent<Mass>()?.GravitationalInteraction(impulse.magnitude, -impulse);
-      gameObject.GetComponent<IBreakableInheritance>().InheritComponents(corpse);
-      BreakEvent?.Invoke(corpse);
-      return;
-    }
-    BreakEvent?.Invoke(null);
   }
 }

@@ -43,10 +43,10 @@ public class Caster : MonoBehaviour
   {
     if (target != null)
     {
-      var durability = target.GetComponent<Durability>();
-      if (durability != null)
+      var breakable = target.GetComponent<IBreakable>();
+      if (breakable != null)
       {
-        durability.BreakEvent += BreakEventHandler;
+        breakable.BreakEvent += BreakEventHandler;
       }
     }
   }
@@ -55,10 +55,10 @@ public class Caster : MonoBehaviour
   {
     if (target != null)
     {
-      var durability = target.GetComponent<Durability>();
-      if (durability != null)
+      var breakable = target.GetComponent<IBreakable>();
+      if (breakable != null)
       {
-        durability.BreakEvent -= BreakEventHandler;
+        breakable.BreakEvent -= BreakEventHandler;
       }
     }
   }

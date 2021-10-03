@@ -62,8 +62,9 @@
      <Compile Include="Assets\Scripts\Properties\FuelSkill.cs" />
      <Compile Include="Assets\Scripts\Properties\TemperatureSkill.cs" />
      <Compile Include="Assets\Scripts\Properties\ElasticResistance.cs" />
-     <Compile Include="Assets\Scripts\IBreakableInheritance.cs" />
-     <Compile Include="Assets\Scripts\TreeBreakableInheritance.cs" />
+     <Compile Include="Assets\Scripts\IBreakable.cs" />
+     <Compile Include="Assets\Scripts\TreeBreakable.cs" />
+     <Compile Include="Assets\Scripts\DestroyableBreakable.cs" />
      <None Include="Assets\Scripts\GUI\TargetPanel.uss" />
      <None Include="Assets\Scripts\GUI\TargetPanel.uxml" />
      <None Include="Assets\UI Toolkit\Sprites\EmojiOne Attribution.txt" />
