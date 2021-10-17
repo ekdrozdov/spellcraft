@@ -49,6 +49,16 @@ public class ComponentPicker : MonoBehaviour
       _skillControllers.Add(new ScalarSkillController(s));
       _skillControllerNames.Add(s.Target.PropertyName);
     });
+    skills.MassSkills.ForEach(s =>
+    {
+      _skillControllers.Add(new MassSkillController(s));
+      _skillControllerNames.Add(s.Target.PropertyName);
+    });
+    skills.VectorSkills.ForEach(s =>
+    {
+      _skillControllers.Add(new VectorSkillController(s));
+      _skillControllerNames.Add(s.Target.PropertyName);
+    });
 
     if (_skillControllers.Count == 0)
     {

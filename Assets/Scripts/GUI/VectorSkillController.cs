@@ -1,15 +1,16 @@
+using UnityEngine;
 using Unity​Engine.UIElements;
 
-public class ScalarSkillController : IUpdatebleController
+public class VectorSkillController : IUpdatebleController
 {
   private VisualElement _ui;
-  private ScalarSkill _skill;
+  private VectorSkill _skill;
   public VisualElement Ui => _ui;
 
-  public ScalarSkillController(ScalarSkill skill)
+  public VectorSkillController(VectorSkill skill)
   {
     _skill = skill;
-    _ui = VisualAssetRegistry.GetScalarControl();
+    _ui = VisualAssetRegistry.GetVectorControl();
 
     _ui.Q<Button>("prop-sub").clickable.clicked += _skill.Decreace;
     _ui.Q<Button>("prop-add").clickable.clicked += _skill.Increace;
@@ -22,10 +23,10 @@ public class ScalarSkillController : IUpdatebleController
 
   public void Update()
   {
-    ComponentValueUpdateEventHandler(0);
+    ComponentValueUpdateEventHandler(Vector3.zero);
   }
 
-  private void ComponentValueUpdateEventHandler(float value)
+  private void ComponentValueUpdateEventHandler(Vector3 value)
   {
     _ui.Q<Label>("property-value").text = _skill.Target.Property.ToString();
     _ui.Q<Label>("power-value").text = _skill.Power.Value.ToString();

@@ -1,20 +1,21 @@
 using Unity​Engine.UIElements;
 
-public class ScalarSkillController : IUpdatebleController
+public class MassSkillController : IUpdatebleController
 {
   private VisualElement _ui;
-  private ScalarSkill _skill;
+  private MassSkill _skill;
   public VisualElement Ui => _ui;
 
-  public ScalarSkillController(ScalarSkill skill)
+  public MassSkillController(MassSkill skill)
   {
     _skill = skill;
-    _ui = VisualAssetRegistry.GetScalarControl();
+    _ui = VisualAssetRegistry.GetMassControl();
 
-    _ui.Q<Button>("prop-sub").clickable.clicked += _skill.Decreace;
-    _ui.Q<Button>("prop-add").clickable.clicked += _skill.Increace;
     _ui.Q<Button>("power-sub").clickable.clicked += _skill.DecreacePower;
     _ui.Q<Button>("power-add").clickable.clicked += _skill.IncreacePower;
+    _ui.Q<Button>("push").clickable.clicked += _skill.Push;
+    _ui.Q<Button>("pull").clickable.clicked += _skill.Pull;
+    _ui.Q<Button>("toss").clickable.clicked += _skill.Toss;
 
     _skill.ComponentValueUpdateEvent += ComponentValueUpdateEventHandler;
     Update();

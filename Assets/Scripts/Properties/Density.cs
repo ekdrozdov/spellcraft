@@ -6,9 +6,4 @@ public class Density : MonoBehaviour, IScalarProperty
   public float Value;
   public string PropertyName => "Density";
   public float Property { get => Value; set => Value = value; }
-
-  public void Change(int delta)
-  {
-    Value += delta;
-  }
 }

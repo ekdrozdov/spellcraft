@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="UnityEngine.UIElements" xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" xsi:schemaLocation="UnityEngine.UIElements ../../../UIElementsSchema/UnityEngine.UIElements.xsd">
+
+    <VisualElement name = "property-description-container" class = "flex-rows">
+        <VisualElement name = "property-controls-container" class = "flex-rows">
+            <Button name = "prop-sub" text = "-"/>
+            <Button name = "prop-add" text = "+"/>
+        </VisualElement>
+        <Label name = "property-control-name" text = "Value"/>
+        <Label name = "property-value" text = "value bind"/>
+    </VisualElement>
+
+    <VisualElement name = "power-description-container" class = "flex-rows">
+        <VisualElement name = "power-controls-container" class = "flex-rows">
+            <Button name = "power-sub" text = "-"/>
+            <Button name = "power-add" text = "+"/>
+        </VisualElement>
+        <Label name = "power-control-name" text = "Power"/>
+        <Label name = "power-value" text = "Value"/>
+    </VisualElement>
+</UXML>

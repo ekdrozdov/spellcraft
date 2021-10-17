@@ -38,7 +38,7 @@ public class TreeBreakable : MonoBehaviour, IBreakable
       transform.rotation
     );
     log.GetComponent<Transform>().localScale = new Vector3(treeScale.x, treeScale.y * 0.9f, treeScale.z);
-    log.GetComponent<Mass>()?.GravitationalInteraction(impulse.magnitude, -impulse);
+    log.GetComponent<Mass>()?.RelativeImpulse(impulse.magnitude, -impulse);
 
     InheritComponents(log, stump);
     BreakEvent?.Invoke(log);
@@ -56,5 +56,6 @@ public class TreeBreakable : MonoBehaviour, IBreakable
     corpse.GetComponent<Fuel>().Property = gameObject.GetComponent<Fuel>().Property;
     corpse.GetComponent<Humidity>().Property = gameObject.GetComponent<Humidity>().Property;
     corpse.GetComponent<Temperature>().Property = gameObject.GetComponent<Temperature>().Property;
+    corpse.GetComponent<Volume>().Property = gameObject.GetComponent<Volume>().Property;
   }
 }
