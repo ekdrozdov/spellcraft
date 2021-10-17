@@ -1,88 +1,68 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class SkillsProvider : MonoBehaviour
 {
-  public delegate void SkillsUpdatedEventHandler(List<IRenderable> skills);
+  public delegate void SkillsUpdatedEventHandler(CategorizedSkills skills);
   public event SkillsUpdatedEventHandler SkillsUpdatedEvent;
+  public CategorizedSkills _categorizedSkills = new CategorizedSkills();
   private Caster _caster;
-  private DensitySkill _densitySkill;
-  private DurabilitySkill _durabilitySkill;
-  private FuelSkill _fuelSkill;
-  private HumiditySkill _humiditySkill;
-  private MassSkill _massSkill;
-  private TemperatureSkill _temperatureSkill;
-  private List<IRenderable> _renderableSkills = new List<IRenderable>();
+  private List<IScalarPower> _scalarPowers;
+  private List<IMassPower> _massPowers;
+  private List<IVectorPower> _vectorPowers;
 
   void Start()
   {
     _caster = gameObject.GetComponentInParent<Caster>();
-    _densitySkill = GetComponent<DensitySkill>();
-    _durabilitySkill = GetComponent<DurabilitySkill>();
-    _fuelSkill = GetComponent<FuelSkill>();
-    _humiditySkill = GetComponent<HumiditySkill>();
-    _massSkill = GetComponent<MassSkill>();
-    _temperatureSkill = GetComponent<TemperatureSkill>();
-
+    _scalarPowers = new List<IScalarPower>(GetComponents<IScalarPower>());
+    _massPowers = new List<IMassPower>(GetComponents<IMassPower>());
+    _vectorPowers = new List<IVectorPower>(GetComponents<IVectorPower>());
     _caster.TargetUpdatedEvent += TargetUpdatedHandler;
-  }
-
-  public List<IRenderable> GetSkills()
-  {
-    return _renderableSkills;
   }
 
   private void TargetUpdatedHandler(GameObject target)
   {
-    _renderableSkills.Clear();
+    _categorizedSkills.ScalarSkills.Clear();
+    _categorizedSkills.MassSkills.Clear();
+    _categorizedSkills.VectorSkills.Clear();
+
     if (_caster.target == null)
     {
-      SkillsUpdatedEvent.Invoke(_renderableSkills);
+      SkillsUpdatedEvent?.Invoke(_categorizedSkills);
       return;
     }
 
-    var targetDensity = target.GetComponent<Density>();
-    if (targetDensity != null && _densitySkill != null)
-    {
-      _densitySkill.Bind(targetDensity);
-      _renderableSkills.Add(_densitySkill);
-    }
+    var scalarProperties = new List<IScalarProperty>(target.GetComponents<IScalarProperty>());
 
-    var targetDurability = target.GetComponent<Durability>();
-    if (targetDurability != null && _durabilitySkill != null)
+    scalarProperties.ForEach(targetProperty =>
     {
-      _durabilitySkill.Bind(targetDurability);
-      _renderableSkills.Add(_durabilitySkill);
-    }
+      var power = _scalarPowers.Find(power => power.TargetPropertyName == targetProperty.PropertyName);
+      if (power != null)
+      {
+        _categorizedSkills.ScalarSkills.Add(new ScalarSkill(targetProperty, power));
+      }
+    });
 
-    var targetFuel = target.GetComponent<Fuel>();
-    if (targetFuel != null && _fuelSkill != null)
+    var massProperties = new List<IMassProperty>(target.GetComponents<IMassProperty>());
+    massProperties.ForEach(targetProperty =>
     {
-      _fuelSkill.Bind(targetFuel);
-      _renderableSkills.Add(_fuelSkill);
-    }
+      var power = _massPowers.Find(power => power.TargetPropertyName == targetProperty.PropertyName);
+      if (power != null)
+      {
+        _categorizedSkills.MassSkills.Add(new MassSkill(targetProperty, power));
+      }
+    });
 
-    var targetHumidity = target.GetComponent<Humidity>();
-    if (targetHumidity != null && _humiditySkill != null)
+    var vectorProperties = new List<IVectorProperty>(target.GetComponents<IVectorProperty>());
+    vectorProperties.ForEach(targetProperty =>
     {
-      _humiditySkill.Bind(targetHumidity);
-      _renderableSkills.Add(_humiditySkill);
-    }
+      var power = _vectorPowers.Find(power => power.TargetPropertyName == targetProperty.PropertyName);
+      if (power != null)
+      {
+        _categorizedSkills.VectorSkills.Add(new VectorSkill(targetProperty, power));
+      }
+    });
 
-    var targetMass = target.GetComponent<Mass>();
-    if (targetMass != null && _massSkill != null)
-    {
-      _massSkill.Bind(targetMass);
-      _renderableSkills.Add(_massSkill);
-    }
-
-    var targetTemperature = target.GetComponent<Temperature>();
-    if (targetTemperature != null && _temperatureSkill != null)
-    {
-      _temperatureSkill.Bind(targetTemperature);
-      _renderableSkills.Add(_temperatureSkill);
-    }
-
-    SkillsUpdatedEvent.Invoke(_renderableSkills);
+    SkillsUpdatedEvent?.Invoke(_categorizedSkills);
   }
 }

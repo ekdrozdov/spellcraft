@@ -16,15 +16,50 @@ public class Caster : MonoBehaviour
       {
         if (hitInfo.transform.gameObject.GetComponent<SelectionHighlightController>() != null)
         {
+          StopListeningTargetEvents();
           target = hitInfo.transform.gameObject;
+          ListenTargetEvents();
           TargetUpdatedEvent?.Invoke(target);
         }
       }
     }
     if (Input.GetKey(KeyCode.Escape))
     {
+      StopListeningTargetEvents();
       target = null;
       TargetUpdatedEvent?.Invoke(target);
+    }
+  }
+
+  private void BreakEventHandler(GameObject corpse)
+  {
+    StopListeningTargetEvents();
+    target = corpse;
+    ListenTargetEvents();
+    TargetUpdatedEvent?.Invoke(target);
+  }
+
+  private void ListenTargetEvents()
+  {
+    if (target != null)
+    {
+      var breakable = target.GetComponent<IBreakable>();
+      if (breakable != null)
+      {
+        breakable.BreakEvent += BreakEventHandler;
+      }
+    }
+  }
+
+  private void StopListeningTargetEvents()
+  {
+    if (target != null)
+    {
+      var breakable = target.GetComponent<IBreakable>();
+      if (breakable != null)
+      {
+        breakable.BreakEvent -= BreakEventHandler;
+      }
     }
   }
 }

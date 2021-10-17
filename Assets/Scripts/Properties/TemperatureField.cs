@@ -11,11 +11,6 @@ public class TemperatureField : MonoBehaviour
     InvokeRepeating("Interaction", 1.0f, 1.0f);
   }
 
-  void Update()
-  {
-
-  }
-
   void Interaction()
   {
     Temperature[] temperatures = Object.FindObjectsOfType<Temperature>();
@@ -35,7 +30,7 @@ public class TemperatureField : MonoBehaviour
           foreach (var hitCollider in hitColliders)
           {
             var affectedTemperature = hitCollider.GetComponent<Temperature>();
-            if (affectedTemperature != null && _temperature != affectedTemperature && affectedTemperature.Value < residentTemprature.Value)
+            if (affectedTemperature != null && _temperature != affectedTemperature && affectedTemperature.Property < residentTemprature.Property)
             {
               affectedTemperature.IncomingExchange(residentTemprature);
             }

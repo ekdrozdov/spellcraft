@@ -1,22 +1,19 @@
 using UnityEngine;
 
-public class Density : MonoBehaviour
+public class Density : MonoBehaviour, IScalarProperty
 {
+  public delegate void ValueUpdateEventHandler(float value);
+  public event ValueUpdateEventHandler ValueUpdateEvent;
   [Range(0.01f, 5000)]
-  public float Value = 1;
-
-  void Start()
+  public float Value;
+  public string PropertyName => "Density";
+  public float Property
   {
-
-  }
-
-  void Update()
-  {
-
-  }
-
-  public void Change(int delta)
-  {
-    Value += delta;
+    get => Value;
+    set
+    {
+      Value = value;
+      ValueUpdateEvent?.Invoke(Value);
+    }
   }
 }

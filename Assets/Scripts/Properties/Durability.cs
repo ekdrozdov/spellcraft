@@ -2,47 +2,32 @@ using UnityEngine;
 
 [RequireComponent(typeof(Transform))]
 [RequireComponent(typeof(Rigidbody))]
-public class Durability : MonoBehaviour
+public class Durability : MonoBehaviour, IScalarProperty
 {
   public float Value = 1;
   public float Limit = 10;
-  public GameObject BrokenPrefab;
   private Rigidbody _body;
+  private IBreakable _breakable;
+  public float Property { get => Value; set => Value = value; }
+  public string PropertyName => "Durability";
 
   void Start()
   {
     _body = gameObject.GetComponent<Rigidbody>();
-  }
-
-  void Update()
-  {
-    if (Value <= 0)
-    {
-      GameObject.Destroy(this.gameObject);
-    }
+    _breakable = gameObject.GetComponent<IBreakable>();
   }
 
   void OnCollisionEnter(Collision collision)
   {
-    Pressure(System.Math.Abs(collision.impulse.magnitude), collision.impulse);
+    Pressure(collision.impulse);
   }
 
-  public void Pressure(float value, Vector3 sourcePosition)
+  public void Pressure(Vector3 impulse)
   {
-    Value -= value;
+    Value -= System.Math.Abs(impulse.magnitude);
     if (Value <= 0)
     {
-      Break();
+      _breakable.Break(impulse);
     }
-  }
-
-  private void Break()
-  {
-    // TODO: inherit velocity and other props.
-    // Vector3 d = (transform.position - sourcePosition).normalized;
-    // var direction = _body.velocity.normalized != Vector3.zero ? _body.velocity.normalized : new Vector3(1, 0, 0);
-    var lt = transform;
-    GameObject.Destroy(gameObject);
-    Instantiate(BrokenPrefab, lt.position, lt.rotation);
   }
 }
