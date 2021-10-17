@@ -3,9 +3,9 @@ using static System.Math;
 
 public class Temperature : MonoBehaviour, IScalarProperty
 {
-  public float SValue = 25;
+  public float Value = 25;
   public float Conductivity = 1;
-  public float Value { get => SValue; set => SValue = value; }
+  public float Property { get => Value; set => Value = value; }
   public string PropertyName => "Temperature";
   private Fuel _burnable;
   private Humidity _humidity;
@@ -27,12 +27,12 @@ public class Temperature : MonoBehaviour, IScalarProperty
     {
       delta = _burnable.Consume(delta);
     }
-    Value += delta;
+    Property += delta;
   }
 
   public float GetChange(Temperature donatingTemp)
   {
-    var delta = donatingTemp.Value - Value;
+    var delta = donatingTemp.Property - Property;
     return Sign(delta) * Min(Abs(delta), Min(donatingTemp.Conductivity, Conductivity));
   }
 }

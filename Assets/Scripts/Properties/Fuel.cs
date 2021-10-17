@@ -5,7 +5,7 @@ using UnityEngine;
 public class Fuel : MonoBehaviour, IScalarProperty
 {
   [Range(0, 20000)]
-  public float SValue = 10;
+  public float Value = 10;
   [ReadOnlyProperty]
   public float Limit = 100;
   public float IgnitionTemperature = 200;
@@ -16,7 +16,7 @@ public class Fuel : MonoBehaviour, IScalarProperty
   [Range(0, 1)]
   public float HeatConvertionPercent = 0.05f;
   public GameObject BurnOutPrefab;
-  public float Value { get => SValue; set => SValue = value; }
+  public float Property { get => Value; set => Value = value; }
   public string PropertyName => "Fuel";
   private Temperature _temperature;
   private Humidity _humidity;
@@ -25,36 +25,36 @@ public class Fuel : MonoBehaviour, IScalarProperty
   {
     _temperature = gameObject.GetComponent<Temperature>();
     _humidity = gameObject.GetComponent<Humidity>();
-    Limit = gameObject.GetComponent<Density>().Value * transform.localScale.x * transform.localScale.y * transform.localScale.z;
+    Limit = gameObject.GetComponent<Density>().Property * transform.localScale.x * transform.localScale.y * transform.localScale.z;
   }
 
   public float Consume(float incomingHeat)
   {
-    if (_humidity != null && _humidity.Value > 0) return incomingHeat;
-    var overheat = _temperature.Value - IgnitionTemperature;
+    if (_humidity != null && _humidity.Property > 0) return incomingHeat;
+    var overheat = _temperature.Property - IgnitionTemperature;
     if (overheat >= 0)
     {
       IsBurning = true;
     }
     else
     {
-      if (_temperature.Value <= ExtinguishTemperature)
+      if (_temperature.Property <= ExtinguishTemperature)
       {
         IsBurning = false;
       }
     }
-    if (Value == 0)
+    if (Property == 0)
     {
       BurnOut();
       return 0;
     }
     if (IsBurning)
     {
-      var fuelLevel = Value;
-      Value -= BaseBurningRate;
-      Value -= overheat * HeatConvertionPercent;
-      Value = System.Math.Max(Value, 0);
-      var delta = fuelLevel - Value;
+      var fuelLevel = Property;
+      Property -= BaseBurningRate;
+      Property -= overheat * HeatConvertionPercent;
+      Property = System.Math.Max(Property, 0);
+      var delta = fuelLevel - Property;
       if (incomingHeat < 0)
       {
         return 0;

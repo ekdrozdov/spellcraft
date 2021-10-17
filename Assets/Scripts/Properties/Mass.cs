@@ -25,7 +25,7 @@ public class Mass : MonoBehaviour
   {
     // TODO: refactor to reactive paradigm.
     var size = transform.localScale;
-    _rigidBody.mass = size.x * size.y * size.z * _density.Value;
+    _rigidBody.mass = size.x * size.y * size.z * _density.Property;
     ShadowValue = _rigidBody.mass;
   }
 

@@ -12,7 +12,7 @@ public class ComponentPicker : MonoBehaviour
   private Label _pickedComponentName;
   private SkillsProvider _skillsProvider;
   private int _pickedComponentNumber = 0;
-  private List<VisualElement> _skillControllers;
+  private List<IUpdatebleController> _skillControllers = new List<IUpdatebleController>();
   private List<string> _skillControllerNames;
 
   void Start()
@@ -32,14 +32,21 @@ public class ComponentPicker : MonoBehaviour
     _skillsProvider.SkillsUpdatedEvent += SkillsUpdatedEventHandler;
   }
 
+  void Update()
+  {
+    if (_skillControllers.Count != 0)
+    {
+      _skillControllers[_pickedComponentNumber].Update();
+    }
+  }
+
   private void SkillsUpdatedEventHandler(CategorizedSkills skills)
   {
-    _skillControllers = new List<VisualElement>();
+    _skillControllers = new List<IUpdatebleController>();
     _skillControllerNames = new List<string>();
     skills.ScalarSkills.ForEach(s =>
     {
-      var scalarBuilder = new ScalarSkillControllerBuilder();
-      _skillControllers.Add(scalarBuilder.Build(s));
+      _skillControllers.Add(new ScalarSkillController(s));
       _skillControllerNames.Add(s.Target.PropertyName);
     });
 
@@ -83,7 +90,7 @@ public class ComponentPicker : MonoBehaviour
     _componentControlContainer.Clear();
     var pickedSkill = _skillControllers[_pickedComponentNumber];
     _pickedComponentName.text = _skillControllerNames[_pickedComponentNumber];
-    _componentControlContainer.Add(pickedSkill);
+    _componentControlContainer.Add(pickedSkill.Ui);
     _componentControlContainer.visible = true;
   }
 }

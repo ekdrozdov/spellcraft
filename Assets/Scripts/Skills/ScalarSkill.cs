@@ -13,13 +13,25 @@ public class ScalarSkill
 
   public void Decreace()
   {
-    Target.Value -= Power.Value;
-    ComponentValueUpdateEvent?.Invoke(Target.Value);
+    Target.Property -= Power.Value;
+    ComponentValueUpdateEvent?.Invoke(Target.Property);
   }
 
   public void Increace()
   {
-    Target.Value += Power.Value;
-    ComponentValueUpdateEvent?.Invoke(Target.Value);
+    Target.Property += Power.Value;
+    ComponentValueUpdateEvent?.Invoke(Target.Property);
+  }
+
+  public void DecreacePower()
+  {
+    Power.Value--;
+    ComponentValueUpdateEvent?.Invoke(Power.Value);
+  }
+
+  public void IncreacePower()
+  {
+    Power.Value++;
+    ComponentValueUpdateEvent?.Invoke(Power.Value);
   }
 }

@@ -69,8 +69,8 @@
      <Compile Include="Assets\Scripts\Skills\IMassSkill.cs" />
      <Compile Include="Assets\Scripts\Skills\CategorizedSkills.cs" />
      <Compile Include="Assets\Scripts\Skills\ScalarSkill.cs" />
-     <Compile Include="Assets\Scripts\GUI\ScalarSkillControllerBuilder.cs" />
      <Compile Include="Assets\Scripts\GUI\VisualAssetRegistry.cs" />
+     <Compile Include="Assets\Scripts\GUI\ScalarSkillController.cs" />
      <None Include="Assets\Scripts\GUI\TargetPanel.uss" />
      <None Include="Assets\Scripts\GUI\TargetPanel.uxml" />
      <None Include="Assets\UI Toolkit\Sprites\EmojiOne Attribution.txt" />

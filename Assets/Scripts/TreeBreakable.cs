@@ -52,9 +52,9 @@ public class TreeBreakable : MonoBehaviour, IBreakable
 
   private void CommonInheritance(GameObject corpse)
   {
-    corpse.GetComponent<Density>().Value = gameObject.GetComponent<Density>().Value;
-    corpse.GetComponent<Fuel>().Value = gameObject.GetComponent<Fuel>().Value;
-    corpse.GetComponent<Humidity>().Value = gameObject.GetComponent<Humidity>().Value;
-    corpse.GetComponent<Temperature>().Value = gameObject.GetComponent<Temperature>().Value;
+    corpse.GetComponent<Density>().Property = gameObject.GetComponent<Density>().Property;
+    corpse.GetComponent<Fuel>().Property = gameObject.GetComponent<Fuel>().Property;
+    corpse.GetComponent<Humidity>().Property = gameObject.GetComponent<Humidity>().Property;
+    corpse.GetComponent<Temperature>().Property = gameObject.GetComponent<Temperature>().Property;
   }
 }

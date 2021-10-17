@@ -1,5 +1,5 @@
 public interface IScalarPower
 {
-  float Value { get; }
+  float Value { get; set; }
   string TargetPropertyName { get; }
 }
