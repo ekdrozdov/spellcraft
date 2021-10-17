@@ -11,11 +11,6 @@ public class TemperatureField : MonoBehaviour
     InvokeRepeating("Interaction", 1.0f, 1.0f);
   }
 
-  void Update()
-  {
-
-  }
-
   void Interaction()
   {
     Temperature[] temperatures = Object.FindObjectsOfType<Temperature>();

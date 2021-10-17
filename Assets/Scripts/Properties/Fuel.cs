@@ -2,10 +2,10 @@ using UnityEngine;
 
 [RequireComponent(typeof(Temperature))]
 [RequireComponent(typeof(Density))]
-public class Fuel : MonoBehaviour
+public class Fuel : MonoBehaviour, IScalarProperty
 {
   [Range(0, 20000)]
-  public float Value = 10;
+  public float SValue = 10;
   [ReadOnlyProperty]
   public float Limit = 100;
   public float IgnitionTemperature = 200;
@@ -15,20 +15,17 @@ public class Fuel : MonoBehaviour
   public float BaseBurningRate = 20;
   [Range(0, 1)]
   public float HeatConvertionPercent = 0.05f;
+  public GameObject BurnOutPrefab;
+  public float Value { get => SValue; set => SValue = value; }
+  public string PropertyName => "Fuel";
   private Temperature _temperature;
   private Humidity _humidity;
-  public GameObject BurnOutPrefab;
 
   void Start()
   {
     _temperature = gameObject.GetComponent<Temperature>();
     _humidity = gameObject.GetComponent<Humidity>();
     Limit = gameObject.GetComponent<Density>().Value * transform.localScale.x * transform.localScale.y * transform.localScale.z;
-  }
-
-  void Update()
-  {
-
   }
 
   public float Consume(float incomingHeat)

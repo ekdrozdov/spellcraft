@@ -1,9 +1,9 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Temperature))]
-public class Humidity : MonoBehaviour
+public class Humidity : MonoBehaviour, IScalarProperty
 {
-  public float Value = 0;
+  public float SValue = 0;
   [ReadOnlyProperty]
   public float Limit = 0;
   public float BaseBoilingRate = 10;
@@ -13,16 +13,14 @@ public class Humidity : MonoBehaviour
   public float BodyHumidityPercent = 0.8f;
   public static float BoilingTemperature = 100;
   public static float FreezingTemperature = 0;
+  public float Value { get => SValue; set => SValue = value; }
+  public string PropertyName => "Humidity";
   private Temperature _temperature;
 
   void Start()
   {
     _temperature = gameObject.GetComponent<Temperature>();
     Limit = gameObject.GetComponent<Density>().Value * transform.localScale.x * transform.localScale.y * transform.localScale.z * BodyHumidityPercent;
-  }
-
-  void Update()
-  {
   }
 
   public float Consume(float incomingHeat)

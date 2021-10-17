@@ -12,6 +12,8 @@ public class ComponentPicker : MonoBehaviour
   private Label _pickedComponentName;
   private SkillsProvider _skillsProvider;
   private int _pickedComponentNumber = 0;
+  private List<VisualElement> _skillControllers;
+  private List<string> _skillControllerNames;
 
   void Start()
   {
@@ -30,9 +32,18 @@ public class ComponentPicker : MonoBehaviour
     _skillsProvider.SkillsUpdatedEvent += SkillsUpdatedEventHandler;
   }
 
-  private void SkillsUpdatedEventHandler(List<IRenderable> skills)
+  private void SkillsUpdatedEventHandler(CategorizedSkills skills)
   {
-    if (skills.Count == 0)
+    _skillControllers = new List<VisualElement>();
+    _skillControllerNames = new List<string>();
+    skills.ScalarSkills.ForEach(s =>
+    {
+      var scalarBuilder = new ScalarSkillControllerBuilder();
+      _skillControllers.Add(scalarBuilder.Build(s));
+      _skillControllerNames.Add(s.Target.PropertyName);
+    });
+
+    if (_skillControllers.Count == 0)
     {
       _pickedComponentName.text = "No pickable components";
       _selectNextComponentButton.SetEnabled(false);
@@ -40,12 +51,12 @@ public class ComponentPicker : MonoBehaviour
       _componentControlContainer.visible = false;
       return;
     }
-    SelectDefaultComponent(skills);
+    SelectDefaultComponent();
     _selectNextComponentButton.SetEnabled(true);
     _selectPrevComponentButton.SetEnabled(true);
   }
 
-  private void SelectDefaultComponent(List<IRenderable> skills)
+  private void SelectDefaultComponent()
   {
     _pickedComponentNumber = 0;
     Pick();
@@ -56,23 +67,23 @@ public class ComponentPicker : MonoBehaviour
     _pickedComponentNumber--;
     if (_pickedComponentNumber == -1)
     {
-      _pickedComponentNumber = _skillsProvider.GetSkills().Count - 1;
+      _pickedComponentNumber = _skillControllers.Count - 1;
     }
     Pick();
   }
 
   private void SelectNextComponent()
   {
-    _pickedComponentNumber = (_pickedComponentNumber + 1) % _skillsProvider.GetSkills().Count;
+    _pickedComponentNumber = (_pickedComponentNumber + 1) % _skillControllers.Count;
     Pick();
   }
 
   private void Pick()
   {
     _componentControlContainer.Clear();
-    var pickedSkill = _skillsProvider.GetSkills()[_pickedComponentNumber];
-    _pickedComponentName.text = pickedSkill.Name;
-    _componentControlContainer.Add(pickedSkill.Render());
+    var pickedSkill = _skillControllers[_pickedComponentNumber];
+    _pickedComponentName.text = _skillControllerNames[_pickedComponentNumber];
+    _componentControlContainer.Add(pickedSkill);
     _componentControlContainer.visible = true;
   }
 }

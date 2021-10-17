@@ -1,97 +1,42 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class SkillsProvider : MonoBehaviour
 {
-  public delegate void SkillsUpdatedEventHandler(List<IRenderable> skills);
+  public delegate void SkillsUpdatedEventHandler(CategorizedSkills skills);
   public event SkillsUpdatedEventHandler SkillsUpdatedEvent;
+  public CategorizedSkills _categorizedSkills = new CategorizedSkills();
   private Caster _caster;
-  private DensitySkill _densitySkill;
-  private DurabilitySkill _durabilitySkill;
-  private FuelSkill _fuelSkill;
-  private HumiditySkill _humiditySkill;
-  private MassSkill _massSkill;
-  private TemperatureSkill _temperatureSkill;
-  private VolumeSkill _volumeSkill;
-  private List<IRenderable> _renderableSkills = new List<IRenderable>();
+  private List<IScalarPower> _scalarPowers;
 
   void Start()
   {
     _caster = gameObject.GetComponentInParent<Caster>();
-    _densitySkill = GetComponent<DensitySkill>();
-    _durabilitySkill = GetComponent<DurabilitySkill>();
-    _fuelSkill = GetComponent<FuelSkill>();
-    _humiditySkill = GetComponent<HumiditySkill>();
-    _massSkill = GetComponent<MassSkill>();
-    _temperatureSkill = GetComponent<TemperatureSkill>();
-    _volumeSkill = GetComponent<VolumeSkill>();
-
+    _scalarPowers = new List<IScalarPower>(GetComponents<IScalarPower>());
     _caster.TargetUpdatedEvent += TargetUpdatedHandler;
-  }
-
-  public List<IRenderable> GetSkills()
-  {
-    return _renderableSkills;
   }
 
   private void TargetUpdatedHandler(GameObject target)
   {
-    _renderableSkills.Clear();
+    _categorizedSkills.ScalarSkills.Clear();
+    _categorizedSkills.MassSkills.Clear();
     if (_caster.target == null)
     {
-      SkillsUpdatedEvent.Invoke(_renderableSkills);
+      SkillsUpdatedEvent?.Invoke(_categorizedSkills);
       return;
     }
 
-    var targetDensity = target.GetComponent<Density>();
-    if (targetDensity != null && _densitySkill != null)
-    {
-      _densitySkill.Bind(targetDensity);
-      _renderableSkills.Add(_densitySkill);
-    }
+    var scalarProperties = new List<IScalarProperty>(target.GetComponents<IScalarProperty>());
 
-    var targetDurability = target.GetComponent<Durability>();
-    if (targetDurability != null && _durabilitySkill != null)
+    scalarProperties.ForEach(targetProperty =>
     {
-      _durabilitySkill.Bind(targetDurability);
-      _renderableSkills.Add(_durabilitySkill);
-    }
+      var power = _scalarPowers.Find(power => power.TargetPropertyName == targetProperty.PropertyName);
+      if (power != null)
+      {
+        _categorizedSkills.ScalarSkills.Add(new ScalarSkill(targetProperty, power));
+      }
+    });
 
-    var targetFuel = target.GetComponent<Fuel>();
-    if (targetFuel != null && _fuelSkill != null)
-    {
-      _fuelSkill.Bind(targetFuel);
-      _renderableSkills.Add(_fuelSkill);
-    }
-
-    var targetHumidity = target.GetComponent<Humidity>();
-    if (targetHumidity != null && _humiditySkill != null)
-    {
-      _humiditySkill.Bind(targetHumidity);
-      _renderableSkills.Add(_humiditySkill);
-    }
-
-    var targetMass = target.GetComponent<Mass>();
-    if (targetMass != null && _massSkill != null)
-    {
-      _massSkill.Bind(targetMass);
-      _renderableSkills.Add(_massSkill);
-    }
-
-    var targetTemperature = target.GetComponent<Temperature>();
-    if (targetTemperature != null && _temperatureSkill != null)
-    {
-      _temperatureSkill.Bind(targetTemperature);
-      _renderableSkills.Add(_temperatureSkill);
-    }
-
-    var targetVolume = target.GetComponent<Transform>();
-    if (targetVolume != null && _volumeSkill != null)
-    {
-      _volumeSkill.Bind(targetVolume);
-      _renderableSkills.Add(_volumeSkill);
-    }
-
-    SkillsUpdatedEvent.Invoke(_renderableSkills);
+    SkillsUpdatedEvent?.Invoke(_categorizedSkills);
   }
 }

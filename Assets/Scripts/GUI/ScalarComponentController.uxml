@@ -7,7 +7,7 @@
             <Button name = "power-sub" text = "-"/>
             <Button name = "power-add" text = "+"/>
         </VisualElement>
-        <Label name = "power-name" text = "Power"/>
+        <Label name = "power-control-name" text = "Power"/>
         <Label name = "power-value" text = "Value"/>
     </VisualElement>
 
@@ -17,7 +17,7 @@
             <Button name = "prop-sub" text = "-"/>
             <Button name = "prop-add" text = "+"/>
         </VisualElement>
-        <Label name = "property-name" text = "Property Name"/>
-        <Label name = "property-value" text = "Property Value"/>
+        <Label name = "property-control-name" text = "Value"/>
+        <Label name = "property-value" text = "value bind"/>
     </VisualElement>
 </UXML>

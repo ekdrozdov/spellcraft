@@ -1,11 +1,12 @@
 using UnityEngine;
 using static System.Math;
 
-public class Temperature : MonoBehaviour
+public class Temperature : MonoBehaviour, IScalarProperty
 {
-  public float Value = 25;
+  public float SValue = 25;
   public float Conductivity = 1;
-
+  public float Value { get => SValue; set => SValue = value; }
+  public string PropertyName => "Temperature";
   private Fuel _burnable;
   private Humidity _humidity;
 
@@ -14,9 +15,6 @@ public class Temperature : MonoBehaviour
     _burnable = gameObject.GetComponent<Fuel>();
     _humidity = gameObject.GetComponent<Humidity>();
   }
-
-  void Update()
-  { }
 
   public void IncomingExchange(Temperature affecter)
   {
